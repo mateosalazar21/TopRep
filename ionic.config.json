@@ -1,0 +1,7 @@
+{
+  "name": "TopRep",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
