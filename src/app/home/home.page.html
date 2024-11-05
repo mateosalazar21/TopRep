@@ -1,20 +1,24 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="logout()">
+        <ion-icon slot="icon-only" name="log-out"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+ <div class="preview">
+  <ion-avatar (click)="changeImage()">
+    
+    <!-- Usando la notación de corchetes para acceder a 'imageUrl' -->
+    <img *ngIf="profile?.['imageUrl']; else placeholder_avatar;" [src]="profile?.['imageUrl']" />
+    <ng-template #placeholder_avatar>
+      <div class="fallback">
+        <p>Select avatar</p>
+      </div>
+    </ng-template>
+  </ion-avatar>
+ </div>
 </ion-content>
