@@ -1,0 +1,26 @@
+/* Background and color styling for the tab bar */
+ion-tab-bar {
+    background-color: #121212;
+    --color-selected: #fff;
+    --color: #a1a1a1;
+  }
+  
+  /* Active tab styling */
+  ion-tab-button.active-tab {
+    color: #f4b400; /* Color personalizado para la pestaña activa */
+    font-weight: bold; /* Destaca la etiqueta de la pestaña activa */
+  }
+  
+  /* Central tab button customization */
+  ion-tab-button.custom-tab {
+    --color: #f4b400; /* Color para el botón central personalizado */
+    font-size: 1.5em;
+    transform: scale(1.2);
+    margin-top: -10px;
+  }
+  
+  /* Icon styling across all tabs */
+  ion-icon {
+    font-size: 1.2em;
+  }
+  

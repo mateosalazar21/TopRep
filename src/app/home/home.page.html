@@ -1,5 +1,5 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
+<ion-header>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-button (click)="logout()">
         <ion-icon slot="icon-only" name="log-out"></ion-icon>
@@ -11,7 +11,7 @@
 <ion-content [fullscreen]="true">
  <div class="preview">
   <ion-avatar (click)="changeImage()">
-    
+
     <!-- Usando la notación de corchetes para acceder a 'imageUrl' -->
     <img *ngIf="profile?.['imageUrl']; else placeholder_avatar;" [src]="profile?.['imageUrl']" />
     <ng-template #placeholder_avatar>

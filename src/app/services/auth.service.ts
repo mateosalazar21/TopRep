@@ -9,7 +9,6 @@ export class AuthService {
 
   constructor(private auth: Auth) { }
 
-  // Define el tipo de los parámetros
   async register({email, password}: {email: string, password: string}): Promise<any> {
     try {
       const user = await createUserWithEmailAndPassword(
@@ -17,13 +16,13 @@ export class AuthService {
         email, 
         password
       );
+      
       return user;
     } catch (error) {
       return null;
-    } 
+    }
   }
 
-  // Define el tipo de los parámetros
   async login({email, password}: {email: string, password: string}): Promise<any> {
     try {
       const user = await signInWithEmailAndPassword(
@@ -31,14 +30,14 @@ export class AuthService {
         email, 
         password
       );
+      
       return user;
     } catch (error) {
       return null;
-    } 
+    }
   }
 
   logout(): Promise<void> {
     return signOut(this.auth);
   }
 }
-

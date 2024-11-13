@@ -1,0 +1,29 @@
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="home" [class.active-tab]="isActive('home')">
+      <ion-icon name="home"></ion-icon>
+      <ion-label>Home</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="search" [class.active-tab]="isActive('search')">
+      <ion-icon name="search"></ion-icon>
+      <ion-label>Search</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="add" class="custom-tab" [class.active-tab]="isActive('add')">
+      <ion-icon name="add-circle"></ion-icon>
+      <ion-label>Add</ion-label>
+    </ion-tab-button>
+    
+
+    <ion-tab-button tab="notifications" [class.active-tab]="isActive('notifications')">
+      <ion-icon name="notifications"></ion-icon>
+      <ion-label>Notifications</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="profile" [class.active-tab]="isActive('profile')">
+      <ion-icon name="person"></ion-icon>
+      <ion-label>Profile</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

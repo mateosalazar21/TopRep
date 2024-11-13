@@ -10,7 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  credentials!: FormGroup; // Usamos ! para indicar que será inicializado en ngOnInit
+  credentials!: FormGroup;
 
   constructor(
     private fb: FormBuilder,
@@ -20,50 +20,52 @@ export class LoginPage implements OnInit {
     private router: Router
   ) { }
 
-  // Easy access for form fields
-  get email(){
+  //Easy 
+  get email() {
     return this.credentials.get('email');
   }
 
-  get password(){
+  get password() {
     return this.credentials.get('password');
   }
 
   ngOnInit() {
-    // Inicializamos credentials aquí
     this.credentials = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
-  async register(){
+
+  async register() {
     const loading = await this.loadingController.create();
     await loading.present();
+    
     const user = await this.authService.register(this.credentials.value);
     await loading.dismiss();
-
+  
     if (user) {
       this.router.navigateByUrl('/home', { replaceUrl: true });
     } else {
-      this.showAlert('Registration failed', 'Please try again!');
+      this.showAlert('Registration Failed', 'Please try again.');
     }
   }
-
-  async login(){
+  
+  async login() {
     const loading = await this.loadingController.create();
     await loading.present();
+
     const user = await this.authService.login(this.credentials.value);
     await loading.dismiss();
 
     if (user) {
       this.router.navigateByUrl('/home', { replaceUrl: true });
     } else {
-      this.showAlert('Login failed', 'Please try again!');
+      this.showAlert('Login Failed', 'Please try again latter.');
     }
   }
 
-  // Añadimos los tipos para header y message
+
   async showAlert(header: string, message: string) {
     const alert = await this.alertController.create({
       header,
