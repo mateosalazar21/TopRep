@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1091263270622",
+    "project_id": "top-rep",
+    "storage_bucket": "top-rep.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1091263270622:android:59cbae863a67f7f5d3bc4f",
+        "android_client_info": {
+          "package_name": "com.masa.TopRep"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1091263270622-j6rdqdss7p6p8mheecejn5s4nh7ludul.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXRDKt60yBB-38Yo9PNogibYa1MzOT-fo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1091263270622-j6rdqdss7p6p8mheecejn5s4nh7ludul.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1091263270622-vo1msn6qol5n3dpkk72v03rse2l64nga.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.masa.TopRep"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
