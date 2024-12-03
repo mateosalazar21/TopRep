@@ -1,12 +1,12 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-
-
 import { LoginScreen } from '../views/login/Login';
 import { RegisterScreen } from '../views/register/Register';
+import { HomeScreen } from '../views/home/Home';
 
 export type RootStackParamList = {
     LoginScreen: undefined,
-    RegisterScreen: undefined
+    RegisterScreen: undefined,
+    HomeScreen: undefined
 }
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -26,6 +26,12 @@ export const MainStackNavigator = () => {
             <Stack.Screen
                 name='RegisterScreen'
                 component={RegisterScreen}
+
+            />
+
+            <Stack.Screen
+                name='HomeScreen'
+                component={HomeScreen}
 
             />
         </Stack.Navigator>

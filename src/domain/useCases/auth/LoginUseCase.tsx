@@ -1,15 +1,11 @@
-import { AuthRepository } from "../../../data/repository/AuthRepository";
-import { Resource } from "../../Resource";
+//Using awilix (Dependency Injection Container) - easier to organize, maintain, and test code
 
-export interface LoginUseCase{
-    execute (email: string, password: string): Promise<Resource>
-}
-
-export const LoginUseCase = ({AuthRepository}: {AuthRepository: AuthRepository}) => {
+export const LoginUseCase = ({AuthRepository}) => {
     return {
-        async execute(email: string, password: string){
-            return await AuthRepository.login(email, password);
+        async run(email: string, password: string){
+            const {result, error} = await AuthRepository.login(email, password);
+            return {result, error}
         }
 
     }
-}
+} 

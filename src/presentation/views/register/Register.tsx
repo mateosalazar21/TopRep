@@ -1,15 +1,15 @@
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../../navigation/MainStackNavigator";
-import { View, Text, Image, Dimensions, TouchableOpacity, Platform, ToastAndroid, Alert } from "react-native";
+import { View, Text, Image, Dimensions, TouchableOpacity, Platform, ToastAndroid, Alert, ActivityIndicator } from "react-native";
 import styles from './Styles'
 import { Svg, Path } from "react-native-svg";
-import { MyColors } from "../../theme/AppTheme";
+import { MyColors, MyStyles } from "../../theme/AppTheme";
 import { DefaultTextInput } from "../../components/DefaultTextInput";
 import { DefaultButton } from "../../components/DefaultButton";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import DI from '../../../di/ioc'
 import { useEffect } from "react";
-
+import Toast from 'react-native-simple-toast';
 
 interface Props extends StackScreenProps<RootStackParamList, 'RegisterScreen'> { };
 
@@ -22,20 +22,27 @@ export const RegisterScreen = ({ navigation, route }: Props) => {
         error,
         onChange,
         register,
-        setError
+        setError,
+        result,
+        loading
     } = DI.resolve("RegisterViewModel");
 
     useEffect(() => {
-      if (error !== '') {
-        if (Platform.OS === 'android') {
-            ToastAndroid.show(error, ToastAndroid.LONG);
-        }
-        else{
-            Alert.alert(error);
-        }
-        setError('');
+      if (error !== null) {
+        if (error !== '') {
+            Toast.show(error, Toast.LONG);
+            setError('');
+          }
       }
     }, [error])
+
+    useEffect(() => {
+      if (result !== null && result !== undefined) {
+        Toast.show('Usuario registrado', Toast.LONG);
+        navigation.replace('HomeScreen');//Replace eliminates the history of previous screens, setting HomeScreen to default
+      }
+    }, [result])
+    
     
 
     return (
@@ -111,7 +118,15 @@ export const RegisterScreen = ({ navigation, route }: Props) => {
                     onPress={() => register()}
 
                 />
+                {
+                    loading && 
+                    <ActivityIndicator
+                        size= 'large'
+                        color={MyColors.primary}
+                        style={MyStyles.loading}
 
+                    />
+                }
         </View>
     )
 }

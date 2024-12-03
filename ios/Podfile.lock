@@ -1608,6 +1608,28 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - react-native-simple-toast (3.3.1):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Toast (~> 4)
+    - Yoga
   - React-nativeconfig (0.76.3)
   - React-NativeModulesApple (0.76.3):
     - glog
@@ -2101,6 +2123,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - Yoga
   - SocketRocket (0.7.1)
+  - Toast (4.1.1)
   - Yoga (0.0.0)
 
 DEPENDENCIES:
@@ -2159,6 +2182,7 @@ DEPENDENCIES:
   - React-microtasksnativemodule (from `../node_modules/react-native/ReactCommon/react/nativemodule/microtasks`)
   - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - react-native-simple-toast (from `../node_modules/react-native-simple-toast`)
   - React-nativeconfig (from `../node_modules/react-native/ReactCommon`)
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -2208,6 +2232,7 @@ SPEC REPOS:
     - GTMSessionFetcher
     - RecaptchaInterop
     - SocketRocket
+    - Toast
 
 EXTERNAL SOURCES:
   boost:
@@ -2317,6 +2342,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-get-random-values"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-simple-toast:
+    :path: "../node_modules/react-native-simple-toast"
   React-nativeconfig:
     :path: "../node_modules/react-native/ReactCommon"
   React-NativeModulesApple:
@@ -2451,6 +2478,7 @@ SPEC CHECKSUMS:
   React-microtasksnativemodule: 81c795a6bbe87c94eeef9fa4e8ed35fdc21b8c3e
   react-native-get-random-values: 21325b2244dfa6b58878f51f9aa42821e7ba3d06
   react-native-safe-area-context: 908ee3cf872b29ed987a0514f1a6ccbf57f0fef4
+  react-native-simple-toast: 4abe0a2cf59e2e4617720752ce8da62c659c1df7
   React-nativeconfig: f2bddc1e6c2eb793c065b37e12c513fdea88afef
   React-NativeModulesApple: 3d43a432a7fdc0938af4fb1b09e1bc6952049f24
   React-perflogger: 6afb7eebf7d9521cc70481688ccddf212970e9d3
@@ -2487,6 +2515,7 @@ SPEC CHECKSUMS:
   RNScreens: e9cfdcedde2fb10f17f390fb239ee8a2ee7a4fd9
   RNSVG: 568f3246803db2088000ed771eb21f7f75065ccf
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
+  Toast: 1f5ea13423a1e6674c4abdac5be53587ae481c4e
   Yoga: 748f06daed00132bf0a051dbb2f4347660ac1a98
 
 PODFILE CHECKSUM: 475102bf508a45aa0255d290e0209c443300e601

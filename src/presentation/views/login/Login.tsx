@@ -1,31 +1,47 @@
 import { StackScreenProps } from '@react-navigation/stack'
 import { RootStackParamList } from '../../navigation/MainStackNavigator';
-import { StyleSheet, Text, View, SafeAreaView, Image, TextInput, TouchableOpacity, Dimensions, ToastAndroid, Platform, Alert } from 'react-native';
-import { MyColors } from '../../theme/AppTheme';
+import { StyleSheet, Text, View, SafeAreaView, Image, TextInput, TouchableOpacity, Dimensions, ToastAndroid, Platform, Alert, ActivityIndicator } from 'react-native';
+import { MyColors, MyStyles } from '../../theme/AppTheme';
 import Svg, { Path } from 'react-native-svg';
 import { DefaultTextInput } from '../../components/DefaultTextInput';
 import { DefaultButton } from '../../components/DefaultButton';
 import styles from './Styles'
 import DI from '../../../di/ioc'
 import { useEffect } from 'react';
-import LoginViewModel from './ViewModel';
+import Toast from 'react-native-simple-toast';
 
-interface Props extends StackScreenProps<RootStackParamList, 'LoginScreen'>{};
+interface Props extends StackScreenProps<RootStackParamList, 'LoginScreen'> { };
 
 export const LoginScreen = ({ navigation, route }: Props) => {
-    const {email, password, error, onChange, login, setError } = DI.resolve("LoginViewModel");
+    const {
+        email,
+        password,
+        error,
+        onChange,
+        login,
+        setError,
+        result,
+        loading
+    } = DI.resolve("LoginViewModel");
 
     useEffect(() => {
-      if (error !== '') {
-        if (Platform.OS === 'android') {
-            ToastAndroid.show(error, ToastAndroid.LONG);   
-        }else{
-            Alert.alert(error);
+        if (error !== null) {
+            if (error !== '') {
+                Toast.show(error, Toast.LONG);
+                setError('');
+            }
         }
-        setError('');
-      }
+
     }, [error])
-    
+
+    useEffect(() => {
+        if (result !== null && result !== undefined) {
+            Toast.show('El usuario se ha logeado', Toast.LONG);
+            navigation.replace('HomeScreen');//Replace eliminates the history of previous screens, setting HomeScreen to default
+        }
+    }, [result])
+
+
 
     return (
         <View style={styles.container}>
@@ -77,10 +93,19 @@ export const LoginScreen = ({ navigation, route }: Props) => {
             />
 
             <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}>
-            <Text style={styles.registerButton}>
-                REGISTRATE AHORA
-            </Text>
+                <Text style={styles.registerButton}>
+                    REGISTRATE AHORA
+                </Text>
             </TouchableOpacity>
+            {
+                    loading && 
+                    <ActivityIndicator
+                        size= 'large'
+                        color={MyColors.primary}
+                        style={MyStyles.loading}
+
+                    />
+                }
         </View>
 
     );

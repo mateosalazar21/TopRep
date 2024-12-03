@@ -4,16 +4,31 @@ import RegisterViewModel from "../presentation/views/register/ViewModel";
 import * as AuthDataSource from '../data/datasource/remote/AuthDataSource';
 import { AuthRepository } from "../data/repository/AuthRepository";
 import { LoginUseCase } from "../domain/useCases/auth/LoginUseCase";
+import { RegisterUseCase } from "../domain/useCases/auth/RegisterUseCase";
+import { LogoutUseCase } from "../domain/useCases/auth/LogoutUseCase";
+import HomeViewModel from "../presentation/views/home/ViewModel";
 
 
 const container = createContainer();
 
-container.register({
+container.register({ //All my injections are located in my ioc.tsx file (here)
+
+    //View model
     LoginViewModel: asFunction(LoginViewModel),
     RegisterViewModel: asFunction(RegisterViewModel),
+    HomeViewModel: asFunction(HomeViewModel),
+
+
+    //Data source
     AuthDataSource: asValue(AuthDataSource),
+
+    //Repository
     AuthRepository: asFunction(AuthRepository),
-    LoginUseCase: asFunction(LoginUseCase)
+
+    //Use case
+    LoginUseCase: asFunction(LoginUseCase),
+    RegisterUseCase: asFunction(RegisterUseCase),
+    LogoutUseCase: asFunction(LogoutUseCase)
 });
 
 export default container;
