@@ -4,6 +4,11 @@ import { User } from "../../domain/models/User";
 
 export const AuthRepository = ({ AuthDataSource }) => { //AuthDataSource is contained in ioc.tsx in the method register()
     return {
+        
+        getUser() {
+            const { result, error } = AuthDataSource.getUser();
+            return { result, error }
+        },
         async login(email: string, password: string) {
             const {result, error} = await AuthDataSource.login(email,password);
             return {result, error}

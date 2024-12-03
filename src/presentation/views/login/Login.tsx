@@ -21,7 +21,8 @@ export const LoginScreen = ({ navigation, route }: Props) => {
         login,
         setError,
         result,
-        loading
+        loading,
+        getUser
     } = DI.resolve("LoginViewModel");
 
     useEffect(() => {
@@ -41,7 +42,10 @@ export const LoginScreen = ({ navigation, route }: Props) => {
         }
     }, [result])
 
-
+    useEffect(() => {
+      getUser();
+    }, [])
+    
 
     return (
         <View style={styles.container}>

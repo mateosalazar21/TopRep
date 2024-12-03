@@ -3,7 +3,7 @@ import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { Resource } from "../../../domain/utils/Resource";
 
 
-const LoginViewModel = ({ LoginUseCase }) => {
+const LoginViewModel = ({ LoginUseCase, GetUserUseCase }) => {
 
     const [error, setError] = useState('')
     const [values, setValues] = useState({
@@ -13,6 +13,12 @@ const LoginViewModel = ({ LoginUseCase }) => {
     
     const [result, setResult] = useState<FirebaseAuthTypes.UserCredential>()
     const [loading, setLoading] = useState(false);
+
+    const getUser = () => {
+        const { result, error } = GetUserUseCase.run();
+        console.log('Data: ', result);
+        console.log('Error: ', error);        
+    }
 
     const onChange = (prop: string, value: any) => {
         setValues({ ...values, [prop]: value })
@@ -59,7 +65,8 @@ const LoginViewModel = ({ LoginUseCase }) => {
         onChange,
         login,
         result,
-        setError
+        setError,
+        getUser
 
     }
 
