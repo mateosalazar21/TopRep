@@ -22,7 +22,8 @@ export const LoginScreen = ({ navigation, route }: Props) => {
         setError,
         result,
         loading,
-        getUser
+        getUser,
+        user
     } = DI.resolve("LoginViewModel");
 
     useEffect(() => {
@@ -46,6 +47,11 @@ export const LoginScreen = ({ navigation, route }: Props) => {
       getUser();
     }, [])
     
+    useEffect(() => {
+        if (user !== undefined && user !== null) {
+            navigation.replace('HomeScreen');
+        }
+      }, [user])
 
     return (
         <View style={styles.container}>
@@ -107,7 +113,7 @@ export const LoginScreen = ({ navigation, route }: Props) => {
                         size= 'large'
                         color={MyColors.primary}
                         style={MyStyles.loading}
-
+                
                     />
                 }
         </View>

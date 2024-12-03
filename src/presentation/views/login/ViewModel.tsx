@@ -13,10 +13,13 @@ const LoginViewModel = ({ LoginUseCase, GetUserUseCase }) => {
     
     const [result, setResult] = useState<FirebaseAuthTypes.UserCredential>()
     const [loading, setLoading] = useState(false);
+    const [user, setUser] = useState<FirebaseAuthTypes.User>();
 
     const getUser = () => {
         const { result, error } = GetUserUseCase.run();
-        console.log('Data: ', result);
+        setUser(result);
+        setError(error);
+        console.log('Ningún usuario inicio sessión: ', result);
         console.log('Error: ', error);        
     }
 
@@ -62,6 +65,7 @@ const LoginViewModel = ({ LoginUseCase, GetUserUseCase }) => {
         ...values,
         error,
         loading,
+        user,
         onChange,
         login,
         result,
