@@ -112,14 +112,16 @@ export const RegisterScreen = ({ navigation, route }: Props) => {
                     value={confirmPassword}
                     onChangeText={onChange}
                 />
+                
+                <View style={{ marginVertical: 30}}>
+                    <DefaultButton
+                        text="REGISTRATE"
+                        onPress={() => register()}
 
-                <DefaultButton
-                    text="REGISTRATE"
-                    onPress={() => register()}
-
-                />
+                    />
+                </View>
                 {
-                    loading && 
+                    loading &&
                     <ActivityIndicator
                         size= 'large'
                         color={MyColors.primary}

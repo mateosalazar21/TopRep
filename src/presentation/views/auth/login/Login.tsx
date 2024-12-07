@@ -98,11 +98,13 @@ export const LoginScreen = ({ navigation, route }: Props) => {
                 onChangeText={onChange}
             />
 
-            <DefaultButton
-                text='Inicia Sesión'
-                onPress={() => login()}
-            // image={require("./assets/img/add.png")}
-            />
+            <View style={{marginVertical: 30}}>
+                <DefaultButton
+                    text='Inicia Sesión'
+                    onPress={() => login()}
+                // image={require("./assets/img/add.png")}
+                />
+            </View>
 
             <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}>
                 <Text style={styles.registerButton}>

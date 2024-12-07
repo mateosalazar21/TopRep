@@ -8,6 +8,7 @@ import { RegisterUseCase } from "../domain/useCases/auth/RegisterUseCase";
 import { LogoutUseCase } from "../domain/useCases/auth/LogoutUseCase";
 import HomeViewModel from "../presentation/views/home/ViewModel";
 import { GetUserUseCase } from "../domain/useCases/auth/GetUserUseCase";
+import ProfileInfoViewModel from "../presentation/views/profile/info/ViewModel";
 
 
 const container = createContainer();
@@ -18,6 +19,7 @@ container.register({ //All my injections are located in my ioc.tsx file (here)
     LoginViewModel: asFunction(LoginViewModel),
     RegisterViewModel: asFunction(RegisterViewModel),
     HomeViewModel: asFunction(HomeViewModel),
+    ProfileInfoViewModel: asFunction(ProfileInfoViewModel),
 
 
     //Data source
