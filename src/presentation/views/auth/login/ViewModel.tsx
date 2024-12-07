@@ -1,6 +1,6 @@
 import { useState } from "react";
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import { Resource } from "../../../domain/utils/Resource";
+import { Resource } from "../../../../domain/utils/Resource";
 
 
 const LoginViewModel = ({ LoginUseCase, GetUserUseCase }) => {
@@ -19,7 +19,7 @@ const LoginViewModel = ({ LoginUseCase, GetUserUseCase }) => {
         const { result, error } = GetUserUseCase.run();
         setUser(result);
         setError(error);
-        console.log('Ningún usuario inicio sessión: ', result);
+        console.log('Data: ', result);
         console.log('Error: ', error);        
     }
 

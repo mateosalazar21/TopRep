@@ -1,14 +1,15 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import { RootStackParamList } from '../../navigation/MainStackNavigator';
+import { RootStackParamList } from '../../../navigation/MainStackNavigator';
 import { StyleSheet, Text, View, SafeAreaView, Image, TextInput, TouchableOpacity, Dimensions, ToastAndroid, Platform, Alert, ActivityIndicator } from 'react-native';
-import { MyColors, MyStyles } from '../../theme/AppTheme';
+import { MyColors, MyStyles } from '../../../theme/AppTheme';
 import Svg, { Path } from 'react-native-svg';
-import { DefaultTextInput } from '../../components/DefaultTextInput';
-import { DefaultButton } from '../../components/DefaultButton';
+import { DefaultTextInput } from '../../../components/DefaultTextInput';
+import { DefaultButton } from '../../../components/DefaultButton';
 import styles from './Styles'
-import DI from '../../../di/ioc'
+import DI from '../../../../di/ioc'
 import { useEffect } from 'react';
 import Toast from 'react-native-simple-toast';
+import auth from '@react-native-firebase/auth';
 
 interface Props extends StackScreenProps<RootStackParamList, 'LoginScreen'> { };
 
@@ -43,15 +44,16 @@ export const LoginScreen = ({ navigation, route }: Props) => {
         }
     }, [result])
 
-    useEffect(() => {
-      getUser();
-    }, [])
-    
-    useEffect(() => {
-        if (user !== undefined && user !== null) {
-            navigation.replace('HomeScreen');
-        }
-      }, [user])
+
+      useEffect(() => {
+        const subscriber = auth().onAuthStateChanged( (user) => {
+            if (user != null) {
+                navigation.replace('TabsNavigator');
+            }
+
+        });
+        return subscriber; // unsubscribe on unmount
+      }, []);
 
     return (
         <View style={styles.container}>
@@ -75,7 +77,7 @@ export const LoginScreen = ({ navigation, route }: Props) => {
                 </Text>
                 <Image
                     style={styles.controllerImage}
-                    source={require('../../../../assets/img/game_con_black.png')}
+                    source={require('../../../../../assets/img/game_con_black.png')}
                 />
             </View>
 

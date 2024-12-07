@@ -1,13 +1,13 @@
 import { StackScreenProps } from "@react-navigation/stack";
-import { RootStackParamList } from "../../navigation/MainStackNavigator";
+import { RootStackParamList } from "../../../navigation/MainStackNavigator";
 import { View, Text, Image, Dimensions, TouchableOpacity, Platform, ToastAndroid, Alert, ActivityIndicator } from "react-native";
 import styles from './Styles'
 import { Svg, Path } from "react-native-svg";
-import { MyColors, MyStyles } from "../../theme/AppTheme";
-import { DefaultTextInput } from "../../components/DefaultTextInput";
-import { DefaultButton } from "../../components/DefaultButton";
+import { MyColors, MyStyles } from "../../../theme/AppTheme";
+import { DefaultTextInput } from "../../../components/DefaultTextInput";
+import { DefaultButton } from "../../../components/DefaultButton";
 import AntDesign from '@expo/vector-icons/AntDesign';
-import DI from '../../../di/ioc'
+import DI from '../../../../di/ioc'
 import { useEffect } from "react";
 import Toast from 'react-native-simple-toast';
 
@@ -67,7 +67,7 @@ export const RegisterScreen = ({ navigation, route }: Props) => {
                 </Text>
                 <Image
                     style={styles.controllerImage}
-                    source={require('../../../../assets/img/game_con_black.png')}
+                    source={require('../../../../../assets/img/game_con_black.png')}
                 />
 
                 <TouchableOpacity 
