@@ -12,8 +12,13 @@ import { RootStackParamList } from "../../../navigation/MainStackNavigator";
 interface Props extends StackScreenProps<TabParamList, 'ProfileInfoScreen'> { };
 export const ProfileInfoScreen = ({ navigation, route }: Props) => {
 
-    const { result, logout } = DI.resolve('ProfileInfoViewModel');
+    const { result, logout, getUserSession } = DI.resolve('ProfileInfoViewModel');
     const nav = useNavigation<StackNavigationProp<RootStackParamList>>();
+
+    useEffect(() => {
+      getUserSession();
+    }, [])
+    
 
     useEffect(() => {
         if (result === true) {
