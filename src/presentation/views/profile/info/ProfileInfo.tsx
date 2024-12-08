@@ -8,17 +8,34 @@ import DI from '../../../../di/ioc';
 import Toast from 'react-native-simple-toast';
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../../navigation/MainStackNavigator";
+import { ProfileStackParamList } from "../../../navigation/ProfileStackNavigator";
 
-interface Props extends StackScreenProps<TabParamList, 'ProfileInfoScreen'> { };
+interface Props extends StackScreenProps<ProfileStackParamList, 'ProfileInfoScreen'> { };
 export const ProfileInfoScreen = ({ navigation, route }: Props) => {
 
-    const { result, logout, getUserSession } = DI.resolve('ProfileInfoViewModel');
+    const {
+        result,
+        user,
+        error,
+        logout,
+        getUserSession,
+        setError
+    } = DI.resolve('ProfileInfoViewModel');
+
     const nav = useNavigation<StackNavigationProp<RootStackParamList>>();
 
     useEffect(() => {
-      getUserSession();
+        // Display errors using Toast
+        if (error !== null && error !== "") {
+            Toast.show(error, Toast.LONG);
+            setError(null);
+        }
+    }, [error]);
+
+    useEffect(() => {
+        getUserSession();
     }, [])
-    
+
 
     useEffect(() => {
         if (result === true) {
@@ -39,23 +56,28 @@ export const ProfileInfoScreen = ({ navigation, route }: Props) => {
             <Text
                 style={styles.title}
             >
-                Nombre de Usuario
+                Perfil de Usuario
             </Text>
 
+             {/* Display profile image */}
             <Image
                 style={styles.profileImage}
                 source={require('../../../../../assets/img/user_menu.png')}
             />
 
-            <Text style={styles.usernameText}>Nombre de usuario</Text>
-            <Text style={styles.emailText}>Correo electrónico</Text>
+            {/* Display username and email */}
+            <Text style={styles.usernameText}>{user?.username || "Username not available"}</Text>
+            <Text style={styles.emailText}>{user?.email || "Email not available"}</Text>
 
             <View style={{ flex: 1 }}></View>
 
+            {/* Eddit Profile Information */}
             <View style={styles.buttonEditProfile}>
                 <DefaultButton
                     text="Editar perfil"
-                    onPress={() => { }}
+                    onPress={() => {
+                        navigation.navigate('ProfileUpdateScreen', { user });
+                     }}
                 />
             </View>
 

@@ -1,9 +1,12 @@
 import { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { useState } from "react";
+import { User } from "../../../../domain/models/User";
 
 const ProfileInfoViewModel = ({ LogoutUseCase, GetUserUseCase, GetUserByIdUseCase }) => {
-    const [result, setResult] = useState(false); // State to store the logout result
+    
     const [error, setError] = useState<string | null>(null); // State to store errors
+    const [user, setUser] = useState<User | null>(null); // State to store user data
+    const [result, setResult] = useState(false); // State to handle logout result
 
     /**
      * Retrieves the current user's session and fetches their data by ID.
@@ -18,15 +21,15 @@ const ProfileInfoViewModel = ({ LogoutUseCase, GetUserUseCase, GetUserByIdUseCas
                 return;
             }
 
-            const user = result as FirebaseAuthTypes.User;
+            const myUser = result as FirebaseAuthTypes.User;
 
-            if (!user || !user.uid) {
+            if (!myUser || !myUser.uid) {
                 console.error("Invalid user or UID");
                 setError("Invalid user or UID");
                 return;
             }
 
-            getUserById(user.uid);
+            getUserById(myUser.uid);
         } catch (e) {
             console.error("Unexpected error in getUserSession:", e);
             setError("Unexpected error in getUserSession");
@@ -47,6 +50,7 @@ const ProfileInfoViewModel = ({ LogoutUseCase, GetUserUseCase, GetUserByIdUseCas
 
             console.log("User data retrieved:", result);
             setError(null); // Clear any previous errors
+            setUser(result); // Store the user data
         });
     };
 
@@ -71,8 +75,11 @@ const ProfileInfoViewModel = ({ LogoutUseCase, GetUserUseCase, GetUserByIdUseCas
     // Expose the result and functions for external usage
     return {
         result,
+        error,
+        user,
         logout,
         getUserSession,
+        setError,
     };
 };
 

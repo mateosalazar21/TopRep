@@ -85,6 +85,8 @@ export const LoginScreen = ({ navigation, route }: Props) => {
 
             <DefaultTextInput
                 placeholder='Correo electrónico'
+                ionIconName='mail'
+                iconColor="white"
                 prop='email'
                 value={email}
                 onChangeText={onChange}
@@ -92,6 +94,8 @@ export const LoginScreen = ({ navigation, route }: Props) => {
 
             <DefaultTextInput
                 placeholder='Contraseña'
+                ionIconName='lock-closed'
+                iconColor="white"
                 prop='password'
                 value={password}
                 secureTextEntry={true}

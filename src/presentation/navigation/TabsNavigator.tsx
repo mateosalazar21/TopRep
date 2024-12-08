@@ -2,14 +2,14 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { PostListScreen } from '../views/post/list/PostList';
 import { Image } from 'react-native';
 import { MyPostListScreen } from '../views/post/myList/MyPostList';
-import { ProfileInfoScreen } from '../views/profile/info/ProfileInfo';
 import { MyColors } from '../theme/AppTheme';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { ProfileStackNavigator } from './ProfileStackNavigator';
 
 export type TabParamList = {
     PostListScreen: undefined,
     MyPostListScreen: undefined,
-    ProfileInfoScreen: undefined
+    ProfileStackNavigator: undefined
 }
 
 const Tab = createBottomTabNavigator<TabParamList>();
@@ -62,8 +62,8 @@ export const TabsNavigator = () => (
 
 
         <Tab.Screen
-            name='ProfileInfoScreen'
-            component={ProfileInfoScreen}
+            name='ProfileStackNavigator'
+            component={ProfileStackNavigator}
             options={{
                 title: 'Perfil',   
                 tabBarLabel: 'Perfil',

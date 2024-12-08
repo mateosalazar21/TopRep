@@ -6,7 +6,7 @@ import { Svg, Path } from "react-native-svg";
 import { MyColors, MyStyles } from "../../../theme/AppTheme";
 import { DefaultTextInput } from "../../../components/DefaultTextInput";
 import { DefaultButton } from "../../../components/DefaultButton";
-import AntDesign from '@expo/vector-icons/AntDesign';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import DI from '../../../../di/ioc'
 import { useEffect } from "react";
 import Toast from 'react-native-simple-toast';
@@ -59,12 +59,15 @@ export const RegisterScreen = ({ navigation, route }: Props) => {
                         fill-opacity="1"
                         d="M0,128L80,106.7C160,85,320,43,480,64C640,85,800,171,960,218.7C1120,267,1280,277,1360,282.7L1440,288L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z" />
                 </Svg>
+
                 <Text style={styles.headingText}>
                     REGISTRATE
                 </Text>
+
                 <Text style={styles.headingText}>
                     EN LA APP
                 </Text>
+
                 <Image
                     style={styles.controllerImage}
                     source={require('../../../../../assets/img/game_con_black.png')}
@@ -74,11 +77,10 @@ export const RegisterScreen = ({ navigation, route }: Props) => {
                     style={styles.iconBackContainer}
                     onPress={() => navigation.pop()}
                 >
-                <AntDesign
-                    name="leftcircle"
-                    size={30} 
-                    color={MyColors.secondary}
-                />
+                <Ionicons 
+                    name="arrow-back-circle" 
+                    size={35} 
+                    color="white" />
                 </TouchableOpacity>
 
 
@@ -87,6 +89,8 @@ export const RegisterScreen = ({ navigation, route }: Props) => {
             <View style={{ flex: 1 }}></View>
                 <DefaultTextInput
                     placeholder='Nombre de usuario'
+                    ionIconName="person-circle-outline"
+                    iconColor="white"
                     prop='username'
                     value={username}
                     onChangeText={onChange}
@@ -94,6 +98,8 @@ export const RegisterScreen = ({ navigation, route }: Props) => {
 
                 <DefaultTextInput
                     placeholder='Email'
+                    ionIconName='mail'
+                    iconColor="white"
                     prop='email'
                     value={email}
                     onChangeText={onChange}
@@ -101,6 +107,8 @@ export const RegisterScreen = ({ navigation, route }: Props) => {
 
                 <DefaultTextInput
                     placeholder='Contraseña'
+                    ionIconName='lock-open'
+                    iconColor="white"
                     prop='password'
                     value={password}
                     onChangeText={onChange}
@@ -108,6 +116,8 @@ export const RegisterScreen = ({ navigation, route }: Props) => {
 
                 <DefaultTextInput
                     placeholder='Confirmar contraseña'
+                    ionIconName='lock-closed'
+                    iconColor="white"
                     prop='confirmPassword'
                     value={confirmPassword}
                     onChangeText={onChange}

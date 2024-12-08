@@ -1,11 +1,12 @@
 import { Image, KeyboardType, StyleSheet, TextInput, View } from "react-native"
 import { MyColors } from "../theme/AppTheme"
-import Fontisto from '@expo/vector-icons/Fontisto';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 
 interface Props {
     placeholder: string,
-    //image: any,
+    ionIconName: keyof typeof Ionicons.glyphMap;
+    iconColor: string,
     value: string,
     prop: string,
     keyboardType?: KeyboardType,
@@ -15,7 +16,8 @@ interface Props {
 
 export const DefaultTextInput = ({
     placeholder,
-    //image,
+    ionIconName,
+    iconColor,
     prop,
     value,
     keyboardType = 'default',
@@ -25,12 +27,11 @@ export const DefaultTextInput = ({
 }: Props) => {
     return (
         <View style={styles.container}>
-            {/* <Fontisto 
-                name="email" // Cambia "email" por el ícono que desees de Fontisto
-                size={24} 
-                color={MyColors.grayElements} 
-                style={styles.icon} 
-            /> */}
+            <Ionicons 
+                name={ionIconName}
+                color={iconColor}
+                style={styles.icon}
+            />
 
             <TextInput
                 placeholder={placeholder}
@@ -50,27 +51,22 @@ export const DefaultTextInput = ({
 
 const styles = StyleSheet.create({
     container: {
-        flexDirection: 'column',
-        marginVertical: 20,   // Espaciado entre componentes
-        marginHorizontal: 10, // Márgenes laterales
+        flexDirection: 'row',
     },
     textInput: {
         borderBottomWidth: 1,
         borderBottomColor: MyColors.grayElements,
         fontSize: 18,
-        marginVertical: 20,
-        marginRight: 30,
+        margin: 20,
         marginLeft: 30,
-        color: MyColors.whiteText
-    },
-    inputImage: {
-        height: 25,
-        width: 25,
-        marginTop: 20,
-        marginLeft: 20,
-        backgroundColor: MyColors.primary
+        marginRight: 30,   
+        color: MyColors.whiteText,
+        flex: 1
     },
     icon: {
         padding: 5, // Espaciado alrededor del ícono
+        fontSize: 30,
+        marginTop: 20,
+        marginLeft: 20
     },
 });
