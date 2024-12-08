@@ -1155,6 +1155,9 @@ PODS:
   - DoubleConversion (1.1.6)
   - EXConstants (17.0.3):
     - ExpoModulesCore
+  - EXImageLoader (5.0.0):
+    - ExpoModulesCore
+    - React-Core
   - EXJSONUtils (0.14.0)
   - EXManifests (0.15.4):
     - ExpoModulesCore
@@ -1376,6 +1379,8 @@ PODS:
     - ExpoModulesCore
   - ExpoHead (4.0.9):
     - ExpoModulesCore
+  - ExpoImagePicker (16.0.3):
+    - ExpoModulesCore
   - ExpoKeepAwake (14.0.1):
     - ExpoModulesCore
   - ExpoModulesCore (2.0.6):
@@ -1414,6 +1419,9 @@ PODS:
   - Firebase/Firestore (11.5.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 11.5.0)
+  - Firebase/Storage (11.5.0):
+    - Firebase/CoreOnly
+    - FirebaseStorage (~> 11.5.0)
   - FirebaseAppCheckInterop (11.5.0)
   - FirebaseAuth (11.5.0):
     - FirebaseAppCheckInterop (~> 11.0)
@@ -1454,6 +1462,13 @@ PODS:
     - leveldb-library (~> 1.22)
     - nanopb (~> 3.30910.0)
   - FirebaseSharedSwift (11.5.0)
+  - FirebaseStorage (11.5.0):
+    - FirebaseAppCheckInterop (~> 11.0)
+    - FirebaseAuthInterop (~> 11.0)
+    - FirebaseCore (= 11.5)
+    - FirebaseCoreExtension (= 11.5)
+    - GoogleUtilities/Environment (~> 8.0)
+    - GTMSessionFetcher/Core (< 5.0, >= 3.4)
   - fmt (9.1.0)
   - glog (0.3.5)
   - GoogleUtilities/AppDelegateSwizzler (8.0.2):
@@ -3202,6 +3217,10 @@ PODS:
     - Firebase/Firestore (= 11.5.0)
     - React-Core
     - RNFBApp
+  - RNFBStorage (21.6.1):
+    - Firebase/Storage (= 11.5.0)
+    - React-Core
+    - RNFBApp
   - RNGestureHandler (2.20.2):
     - DoubleConversion
     - glog
@@ -3427,6 +3446,7 @@ DEPENDENCIES:
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - EXConstants (from `../node_modules/expo-constants/ios`)
+  - EXImageLoader (from `../node_modules/expo-image-loader/ios`)
   - EXJSONUtils (from `../node_modules/expo-json-utils/ios`)
   - EXManifests (from `../node_modules/expo-manifests/ios`)
   - Expo (from `../node_modules/expo`)
@@ -3438,6 +3458,7 @@ DEPENDENCIES:
   - ExpoFileSystem (from `../node_modules/expo-file-system/ios`)
   - ExpoFont (from `../node_modules/expo-font/ios`)
   - ExpoHead (from `../node_modules/expo-router/ios`)
+  - ExpoImagePicker (from `../node_modules/expo-image-picker/ios`)
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
   - ExpoSystemUI (from `../node_modules/expo-system-ui/ios`)
@@ -3511,6 +3532,7 @@ DEPENDENCIES:
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - "RNFBFirestore (from `../node_modules/@react-native-firebase/firestore`)"
+  - "RNFBStorage (from `../node_modules/@react-native-firebase/storage`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -3532,6 +3554,7 @@ SPEC REPOS:
     - FirebaseFirestore
     - FirebaseFirestoreInternal
     - FirebaseSharedSwift
+    - FirebaseStorage
     - GoogleUtilities
     - "gRPC-C++"
     - gRPC-Core
@@ -3549,6 +3572,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
   EXConstants:
     :path: "../node_modules/expo-constants/ios"
+  EXImageLoader:
+    :path: "../node_modules/expo-image-loader/ios"
   EXJSONUtils:
     :path: "../node_modules/expo-json-utils/ios"
   EXManifests:
@@ -3571,6 +3596,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-font/ios"
   ExpoHead:
     :path: "../node_modules/expo-router/ios"
+  ExpoImagePicker:
+    :path: "../node_modules/expo-image-picker/ios"
   ExpoKeepAwake:
     :path: "../node_modules/expo-keep-awake/ios"
   ExpoModulesCore:
@@ -3714,6 +3741,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/auth"
   RNFBFirestore:
     :path: "../node_modules/@react-native-firebase/firestore"
+  RNFBStorage:
+    :path: "../node_modules/@react-native-firebase/storage"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNReanimated:
@@ -3733,6 +3762,7 @@ SPEC CHECKSUMS:
   BoringSSL-GRPC: ca6a8e5d04812fce8ffd6437810c2d46f925eaeb
   DoubleConversion: f16ae600a246532c4020132d54af21d0ddb2a385
   EXConstants: dd2fe64c6cdb1383b694c309a63028a8e9f2be6d
+  EXImageLoader: 759063a65ab016b836f73972d3bb25404888713d
   EXJSONUtils: 01fc7492b66c234e395dcffdd5f53439c5c29c93
   EXManifests: f30a0c5d3d6cad8db9c01bab579e0aa0df5d3cb2
   Expo: 148aac4ce0da148c63447d09ae41ddb153f35506
@@ -3744,6 +3774,7 @@ SPEC CHECKSUMS:
   ExpoFileSystem: dc2679a2b5d4c465ca881129074da95faee943d5
   ExpoFont: 7522d869d84ee2ee8093ee997fef5b86f85d856b
   ExpoHead: a623db43433938dcfbd6a38c27381055d01a0f3a
+  ExpoImagePicker: 440a560c9bfc63edae854d08b9f12f75bd11c112
   ExpoKeepAwake: 783e68647b969b210a786047c3daa7b753dcac1f
   ExpoModulesCore: 274a025df9dc0258460ab1721b557d8d6532fafb
   ExpoSystemUI: e41835aa059bd79369f3b398b4f2b64ed4bfa5c6
@@ -3759,6 +3790,7 @@ SPEC CHECKSUMS:
   FirebaseFirestore: 3f59cb7b6f62b362886743d4c92e83a66b5e0a5d
   FirebaseFirestoreInternal: d8d71a7f27834573404834172886183f1cd48c3d
   FirebaseSharedSwift: 302ac5967857ad7e7388b15382d705b8c8d892aa
+  FirebaseStorage: 4e521b5c833f0f3d488dcbde0c72044d02c59146
   fmt: 10c6e61f4be25dc963c36bd73fc7b1705fe975be
   glog: 08b301085f15bcbb6ff8632a8ebaf239aae04e6a
   GoogleUtilities: 26a3abef001b6533cf678d3eb38fd3f614b7872d
@@ -3832,6 +3864,7 @@ SPEC CHECKSUMS:
   RNFBApp: 1de631bffe154f4f8b56f8dbfb13d6305d658e97
   RNFBAuth: aa53108a283606c560e4380d75d093c35a13d8dd
   RNFBFirestore: 040e9607af616bec5d3903f5fa6a1a4e5dd0e4bd
+  RNFBStorage: debf79a222417a239adacd5ef2419395c33d6dd2
   RNGestureHandler: 598e45cedb905b157e9764acbef0b5e365693451
   RNReanimated: 09762f5e57737cfb986e7a046c795adcf5bae431
   RNScreens: e9cfdcedde2fb10f17f390fb239ee8a2ee7a4fd9

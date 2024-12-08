@@ -11,24 +11,27 @@ import DI from "../../../../di/ioc"
 
 interface Props extends StackScreenProps<ProfileStackParamList, 'ProfileUpdateScreen'> { };
 
-export const ProfileUpdateScreen = ({ navigation, route}: Props) => {
+export const ProfileUpdateScreen = ({ navigation, route }: Props) => {
 
     const { user } = route.params;
-    
-    const { 
-        username, 
-        image, 
-        onChange, 
-        setValues
+
+    const {
+        username,
+        image,
+        file,
+        onChange,
+        setValues,
+        pickImage,
+        takePhoto
     } = DI.resolve('ProfileUpdateViewModel');
 
     useEffect(() => {
-      console.log('User param: ', user);
-      setValues(user);
+        console.log('User param: ', user);
+        setValues(user);
     }, [])
-    
 
-    return(
+
+    return (
         <View style={styles.container}>
             <ImageBackground
                 source={require('../../../../../assets/img/fifa.jpg')}
@@ -37,15 +40,15 @@ export const ProfileUpdateScreen = ({ navigation, route}: Props) => {
                 <View style={styles.darkBox}></View>
             </ImageBackground>
 
-            <TouchableOpacity 
-                    style={styles.iconBackContainer}
-                    onPress={() => navigation.pop()}
-                >
-                <Ionicons 
-                    name="arrow-back-circle" 
-                    size={35}  
+            <TouchableOpacity
+                style={styles.iconBackContainer}
+                onPress={() => navigation.pop()}
+            >
+                <Ionicons
+                    name="arrow-back-circle"
+                    size={35}
                     color="white" />
-                </TouchableOpacity>
+            </TouchableOpacity>
 
             <Text
                 style={styles.title}
@@ -53,13 +56,26 @@ export const ProfileUpdateScreen = ({ navigation, route}: Props) => {
                 Perfil de Usuario
             </Text>
 
-             {/* Display profile image */}
-            <Image
-                style={styles.profileImage}
-                source={require('../../../../../assets/img/user_menu.png')}
-            />
+            {/* Edit profile image */}
+            <TouchableOpacity
+                style={styles.profileImageContainer}
+                onPress={() => pickImage()}
+            >
+                {
+                    image == undefined || image == ''
+                        ? <Image
+                            style={styles.profileImage}
+                            source={require('../../../../../assets/img/user_menu.png')}
+                        />
+                        : <Image
+                            style={styles.profileImage}
+                            source={{uri: image}}
+                        />
+                }
 
-            <View style={{marginTop: 80}}>
+            </TouchableOpacity>
+
+            <View style={{ marginTop: 80 }}>
                 <DefaultTextInput
                     placeholder="Nombre de usuario"
                     ionIconName="person-circle-outline"
@@ -67,7 +83,7 @@ export const ProfileUpdateScreen = ({ navigation, route}: Props) => {
                     prop="username"
                     onChangeText={onChange}
                     value={username}
-                />    
+                />
             </View>
 
             <View style={{ flex: 1 }}></View>
@@ -76,8 +92,8 @@ export const ProfileUpdateScreen = ({ navigation, route}: Props) => {
                 <DefaultButton
                     text="Actualizar perfil"
                     onPress={() => {
-                        navigation.navigate('ProfileUpdateScreen', {user});
-                     }}
+                        navigation.navigate('ProfileUpdateScreen', { user });
+                    }}
                 />
             </View>
 

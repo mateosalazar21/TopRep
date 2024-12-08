@@ -23,13 +23,15 @@ const ProfileUpdateStyles = StyleSheet.create({
         alignSelf:'center',
         top: 70
     },
+    profileImageContainer:{
+        position: 'absolute',
+        top: 220,
+        justifyContent: 'center',
+        alignSelf: 'center'
+    },
     profileImage:{
         width: 150,
         height: 150,
-        position: 'absolute',
-        top:220,
-        justifyContent: 'center',
-        alignSelf: 'center'
     },
     usernameText:{
         justifyContent:'center',
