@@ -1,4 +1,4 @@
-import { View, Text, ImageBackground, Image, TouchableOpacity } from "react-native"
+import { View, Text, ImageBackground, Image, TouchableOpacity, ActivityIndicator } from "react-native"
 import { StackNavigationProp, StackScreenProps } from "@react-navigation/stack";
 import { ProfileStackParamList } from "../../../navigation/ProfileStackNavigator";
 import { useEffect } from "react";
@@ -6,8 +6,10 @@ import { DefaultButton } from "../../../components/DefaultButton";
 import styles from './Styles';
 import { DefaultTextInput } from "../../../components/DefaultTextInput";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import Toast from 'react-native-simple-toast';
 
 import DI from "../../../../di/ioc"
+import { MyColors, MyStyles } from "../../../theme/AppTheme";
 
 interface Props extends StackScreenProps<ProfileStackParamList, 'ProfileUpdateScreen'> { };
 
@@ -19,10 +21,16 @@ export const ProfileUpdateScreen = ({ navigation, route }: Props) => {
         username,
         image,
         file,
+        loading,
+        error,
+        response,
         onChange,
         setValues,
         pickImage,
-        takePhoto
+        takePhoto,
+        update,
+        updateWithImage,
+        setError
     } = DI.resolve('ProfileUpdateViewModel');
 
     useEffect(() => {
@@ -30,9 +38,28 @@ export const ProfileUpdateScreen = ({ navigation, route }: Props) => {
         setValues(user);
     }, [])
 
+    useEffect(() => {
+        if (error !== null) {
+            if (error !== '') {
+                Toast.show(error, Toast.LONG);
+                setError('');
+            }
+        }
+
+    }, [error])
+
+    useEffect(() => {
+        if (response) {
+            Toast.show('Usuario actualizado correctamente', Toast.LONG);
+        }
+
+    }, [response])
+
 
     return (
         <View style={styles.container}>
+
+            {/* Background Image */}
             <ImageBackground
                 source={require('../../../../../assets/img/fifa.jpg')}
                 style={styles.backgroundImage}
@@ -40,6 +67,7 @@ export const ProfileUpdateScreen = ({ navigation, route }: Props) => {
                 <View style={styles.darkBox}></View>
             </ImageBackground>
 
+            {/* Back Arrow Icon Button */}
             <TouchableOpacity
                 style={styles.iconBackContainer}
                 onPress={() => navigation.pop()}
@@ -50,11 +78,8 @@ export const ProfileUpdateScreen = ({ navigation, route }: Props) => {
                     color="white" />
             </TouchableOpacity>
 
-            <Text
-                style={styles.title}
-            >
-                Perfil de Usuario
-            </Text>
+            {/* Page Title */}
+            <Text style={styles.title}> Editar Perfil </Text>
 
             {/* Edit profile image */}
             <TouchableOpacity
@@ -64,17 +89,18 @@ export const ProfileUpdateScreen = ({ navigation, route }: Props) => {
                 {
                     image == undefined || image == ''
                         ? <Image
-                            style={styles.profileImage}
                             source={require('../../../../../assets/img/user_menu.png')}
+                            style={styles.profileImage}
                         />
                         : <Image
+                            source={{ uri: image }}
                             style={styles.profileImage}
-                            source={{uri: image}}
                         />
                 }
-
             </TouchableOpacity>
 
+
+            {/* Text Input - Profile Update */}
             <View style={{ marginTop: 80 }}>
                 <DefaultTextInput
                     placeholder="Nombre de usuario"
@@ -87,15 +113,23 @@ export const ProfileUpdateScreen = ({ navigation, route }: Props) => {
             </View>
 
             <View style={{ flex: 1 }}></View>
-            {/* Eddit Profile Information */}
+            {/* Update Profile Information Button */}
             <View style={styles.buttonEditProfile}>
                 <DefaultButton
                     text="Actualizar perfil"
-                    onPress={() => {
-                        navigation.navigate('ProfileUpdateScreen', { user });
-                    }}
+                    onPress={() => update()}
                 />
             </View>
+
+            {
+                loading &&
+                <ActivityIndicator
+                    size='large'
+                    color={MyColors.primary}
+                    style={MyStyles.loading}
+
+                />
+            }
 
         </View>
     );

@@ -46,8 +46,8 @@ export const TabsNavigator = () => (
             name='MyPostListScreen'
             component={MyPostListScreen}
             options={{
-                title: 'Mis Posts',
-                tabBarLabel: 'Mis Posts',
+                title: 'Ranking',
+                tabBarLabel: 'Ranking',
 
                 tabBarIcon: () => (
                     <Ionicons

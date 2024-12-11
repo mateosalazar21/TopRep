@@ -59,11 +59,20 @@ export const ProfileInfoScreen = ({ navigation, route }: Props) => {
                 Perfil de Usuario
             </Text>
 
-             {/* Display profile image */}
-            <Image
-                style={styles.profileImage}
-                source={require('../../../../../assets/img/user_menu.png')}
-            />
+            {
+                user?.image == undefined || user?.image == ''
+                    ? <Image
+                        style={styles.profileImage}
+                        source={require('../../../../../assets/img/user_menu.png')}
+                    />
+                    : <Image
+                        source={{ uri: user.image }}
+                        style={styles.profileImage}
+                    />
+            }
+
+            {/* Display profile image */}
+
 
             {/* Display username and email */}
             <Text style={styles.usernameText}>{user?.username || "Username not available"}</Text>
@@ -77,7 +86,7 @@ export const ProfileInfoScreen = ({ navigation, route }: Props) => {
                     text="Editar perfil"
                     onPress={() => {
                         navigation.navigate('ProfileUpdateScreen', { user });
-                     }}
+                    }}
                 />
             </View>
 

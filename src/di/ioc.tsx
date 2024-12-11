@@ -13,6 +13,8 @@ import ProfileInfoViewModel from "../presentation/views/profile/info/ViewModel";
 import ProfileUpdateViewModel from "../presentation/views/profile/update/ViewModel"
 import { UsersRepository } from "../data/repository/UsersRepository";
 import { GetUserByIdUseCase } from "../domain/useCases/users/GetUserByIdUseCase";
+import { UpdateUserUseCase } from "../domain/useCases/users/UpdateUserUseCase";
+import { UpdateWithImageUserUseCase } from "../domain/useCases/users/UpdateWithImageUserUseCase";
 
 
 const container = createContainer();
@@ -44,6 +46,8 @@ container.register({ //All my injections are located in my ioc.tsx file (here)
 
     //Users
     GetUserByIdUseCase: asFunction(GetUserByIdUseCase),
+    UpdateUserUseCase: asFunction(UpdateUserUseCase),
+    UpdateWithImageUserUseCase: asFunction(UpdateWithImageUserUseCase)
 });
 
 export default container;

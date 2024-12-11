@@ -2,55 +2,57 @@ import { StyleSheet } from "react-native";
 import { MyColors } from "../../../theme/AppTheme";
 
 const ProfileUpdateStyles = StyleSheet.create({
-    container:{
+    container: {
         flex: 1,
         backgroundColor: MyColors.background
     },
-    backgroundImage:{
-        width: 'auto',
+    backgroundImage: {
+        width: '100%', // Cambiado de 'auto'
         height: 300
     },
-    darkBox:{
+    darkBox: {
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        width: 'auto',
+        width: '100%', // Cambiado de 'auto'
         height: 300
     },
-    title:{
+    title: {
         color: 'white',
         fontSize: 28,
         position: 'absolute',
         justifyContent: 'center',
-        alignSelf:'center',
+        alignSelf: 'center',
         top: 70
     },
-    profileImageContainer:{
+    profileImageContainer: {
         position: 'absolute',
         top: 220,
         justifyContent: 'center',
         alignSelf: 'center'
     },
-    profileImage:{
+    profileImage: {
         width: 150,
         height: 150,
+        resizeMode: 'cover', // Asegura el ajuste de la imagen
+        borderRadius: 100
     },
-    usernameText:{
-        justifyContent:'center',
-        alignSelf:'center',
-        color:'white',
+    usernameText: {
+        justifyContent: 'center',
+        alignSelf: 'center',
+        color: 'white',
         fontSize: 20,
         marginTop: 100,
-        fontStyle:'italic'
+        fontStyle: 'italic'
     },
-    emailText:{
-        justifyContent:'center',
-        alignSelf:'center',
-        color:'white',
-        fontSize: 17,
+    emailText: {
+        justifyContent: 'center',
+        alignSelf: 'center',
+        color: 'white',
+        fontSize: 17
     },
-    buttonEditProfile:{
+    buttonEditProfile: {
         marginBottom: 15
     },
-    buttonLogOut:{
+    buttonLogOut: {
         marginBottom: 25
     },
     iconBackContainer: {
@@ -58,6 +60,6 @@ const ProfileUpdateStyles = StyleSheet.create({
         top: 60,
         left: 20
     },
-})
+});
 
 export default ProfileUpdateStyles;

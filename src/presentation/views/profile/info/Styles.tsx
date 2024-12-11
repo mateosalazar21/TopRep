@@ -29,7 +29,8 @@ const ProfileInfoStyles = StyleSheet.create({
         position: 'absolute',
         top:220,
         justifyContent: 'center',
-        alignSelf: 'center'
+        alignSelf: 'center',
+        borderRadius: 100 
     },
     usernameText:{
         justifyContent:'center',
