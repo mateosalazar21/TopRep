@@ -7,6 +7,13 @@ export const content = [
 ];
 export const presets = [require("nativewind/preset")];
 export const theme = {
-  extend: {},
+  extend: {
+    fontFamily: {
+      poppinsRegular: 'Poppins_400Regular',
+      poppinsMedium: 'Poppins_500Medium',
+      poppinsSemiBold: 'Poppins_600SemiBold',
+      poppinsBold: 'Poppins_700Bold',
+    },
+  },
 };
 export const plugins = [];

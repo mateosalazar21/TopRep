@@ -60,14 +60,20 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const {colorScheme, setColorScheme} = useColorScheme();
+  const { colorScheme, setColorScheme } = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : MyTheme}>
+    <ThemeProvider value={MyTheme}>
       <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="index"
+          options={{
+            headerShown: false,
+          }}
+        />
         <Stack.Screen name="(auth)/signin" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)/signup" options={{ headerShown: false }} />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
     </ThemeProvider>
   );

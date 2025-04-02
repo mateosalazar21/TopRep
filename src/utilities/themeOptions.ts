@@ -1,5 +1,6 @@
 import { Platform } from 'react-native';
 import { Theme } from '@react-navigation/native';
+import { stone, orange } from 'tailwindcss/colors';
 
 const WEB_FONT_STACK =
   'system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"';
@@ -7,12 +8,12 @@ const WEB_FONT_STACK =
 export const MyTheme: Theme = {
   dark: false,
   colors: {
-    primary: 'rgb(255, 255, 255)',
-    background: 'rgb(18, 18, 18)',
-    card: 'rgb(0, 0, 0)',
-    text: 'rgb(255, 255, 255)',
-    border: 'rgb(255, 255, 255)',
-    notification: 'rgb(255, 255, 255)',
+    primary: stone[50],       // Color de acento o acción
+    background: stone[800],   // Fondo general oscuro
+    card: stone[950],         // Fondo de tarjetas/contenedores
+    text: stone[50],          // Texto claro sobre fondo oscuro
+    border: stone[700],       // Bordes suaves que no distraigan
+    notification: orange[600],// Color vibrante para alertas
   },
 
   fonts: {

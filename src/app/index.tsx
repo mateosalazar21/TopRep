@@ -1,44 +1,60 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 
 export default function HomeScreen() {
   const router = useRouter();
 
   return (
-    <View style={styles.container}>
-      
+    <View
+      className='flex-1 items-center justify-strech px-1' >
 
-      <Text style={styles.title}>Bienvenido a la app!</Text>
+      {/*Logo*/}
+      <Image
+        source={require('../assets/icons/splash-icon-dark.png')}
+        className='w-1/2 h-1/2 mb-1'
+        resizeMode='contain'
+      />
+      {/*Grupo1*/}
+      <View className='w-4/5 items-center '>
+        <Text
+          className='font-poppinsSemiBold text-xl text-stone-50 mb-4 text-center'>
+          ¿Ya tienes una cuenta?
+        </Text>
 
-      <TouchableOpacity 
-        style={styles.button} 
-        onPress={() => router.push('/(auth)/signin')}
-      >
-        <Text style={styles.buttonText}>Ingresar</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          className='bg-orange-600 p-4 rounded-full w-full items-center'
+          onPress={() => router.push('/(auth)/signin')}
+        >
+          <Text
+            className='font-poppinsSemiBold text-xl text-stone-50'
+          >
+            INGRESAR
+          </Text>
+        </TouchableOpacity>
+      </View>
 
-      <TouchableOpacity 
-        style={styles.button} 
-        onPress={() => router.push('/(auth)/signup')}
-      >
-        <Text style={styles.buttonText}>Empieza Ahora</Text>
-      </TouchableOpacity>
+      {/*Separador*/}
+      <View className="w-10/12 h-px bg-stone-300 my-8" />
+
+
+      {/*Grupo2*/}
+      <View className='w-4/5 items-center'>
+        <Text
+          className='font-poppinsSemiBold text-xl text-stone-50 mb-4 text-center'>
+          ¿Es tu primera vez en TopRep?
+        </Text>
+        <TouchableOpacity
+          className='bg-stone-50 p-4 rounded-full w-full items-center'
+          onPress={() => router.push('/(auth)/signup')}
+        >
+          <Text
+            className='font-poppinsSemiBold text-xl text-orange-600'>
+            EMPIEZA AHORA
+          </Text>
+        </TouchableOpacity>
+      </View>
+
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1, justifyContent: 'center', alignItems: 'center',
-  },
-  title: {
-    fontSize: 24, marginBottom: 30,
-  },
-  button: {
-    backgroundColor: '#007bff', padding: 12, margin: 10, borderRadius: 10,
-    width: '80%', alignItems: 'center',
-  },
-  buttonText: {
-    color: 'white', fontSize: 16,
-  },
-});
