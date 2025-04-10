@@ -4,13 +4,14 @@
     "strict": true,
     "module": "esnext",
     "moduleResolution": "node",
+    "baseUrl": ".",
     "types": [
       "react",
       "react-native"
     ],
     "paths": {
       "@/*": [
-        "./*"
+        "src/*"
       ]
     }
   },

@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 //import { useColorScheme } from '@/src/components/useColorScheme';
 import { useColorScheme } from 'nativewind';
-import { MyTheme } from '@/src/utilities/themeOptions';
+import { MyTheme } from '@/utilities/themeOptions';
 
 import {
   Poppins_400Regular,
@@ -71,8 +71,8 @@ function RootLayoutNav() {
             headerShown: false,
           }}
         />
-        <Stack.Screen name="(auth)/signin" options={{ headerShown: false }} />
-        <Stack.Screen name="(auth)/signup" options={{ headerShown: false }} />
+        <Stack.Screen name="(auth)/signin"/>
+        <Stack.Screen name="(auth)/signup"/>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
     </ThemeProvider>
