@@ -30,10 +30,10 @@ export default function SignUpScreen() {
     const router = useRouter();
 
     const handleSignup = async () => {
-        if (!email || !password) {
-            alert('Por favor completa el correo y la contraseña');
+        if (!name || !surname || !username || !email || !password) {
+            alert('Por favor completa todos los campos.');
             return;
-        }
+          }
 
         if (username.length < 5 || username.length > 20 || !/^[a-zA-Z0-9_]+$/.test(username)) {
             alert('El nombre de usuario debe tener entre 5 y 20 caracteres y solo puede incluir letras, números y _');
@@ -43,6 +43,13 @@ export default function SignUpScreen() {
         const { data, error } = await supabase.auth.signUp({
             email,
             password,
+            options: {
+                data: {
+                    athlete_name: name,
+                    athlete_surname: surname,
+                    athlete_username: username,
+                },
+            },
         });
 
         if (error) {
