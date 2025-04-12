@@ -31,6 +31,7 @@ export default function SignInScreen() {
             return;
         }
 
+        // Paso 1: Iniciar sesión con Supabase Auth
         const { data, error } = await supabase.auth.signInWithPassword({
             email,
             password,
@@ -42,9 +43,39 @@ export default function SignInScreen() {
             return;
         }
 
-        alert('¡Bienvenid@!');
-        router.replace('/(tabs)');
+        //alert('¡Bienvenid@!');
+        //router.replace('/(tabs)');
+        const user = data?.user;
+
+        if (!user) {
+            alert('Ocurrió un error inesperado al obtener el usuario.');
+            return;
+        }
+
+        // Paso 2: Consultar el perfil del usuario en tu tabla athletes
+        const { data: profileData, error: profileError } = await supabase
+            .from('athletes')
+            .select('onboarding_completed')
+            .eq('athlete_id', user.id)
+            .single();
+
+        if (profileError || !profileData) {
+            console.error('ERROR AL CONSULTAR PERFIL:', profileError);
+            alert('No se pudo obtener la información del perfil del usuario.');
+            return;
+        }
+
+        // Paso 3: Redirigir según estado de onboarding
+        if (profileData.onboarding_completed) {
+            router.replace('/(tabs)');
+        } else {
+            router.replace('/(onboarding)');
+        }
+
+
+
     };
+
 
     const { from } = useLocalSearchParams();
 

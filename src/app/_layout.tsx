@@ -1,3 +1,4 @@
+import 'react-native-reanimated';
 import '../../global.css';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 //
@@ -73,7 +74,8 @@ function RootLayoutNav() {
         />
         <Stack.Screen name="(auth)/signin"/>
         <Stack.Screen name="(auth)/signup"/>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }}/>
+        <Stack.Screen name="(onboarding)/index" options={{ headerShown: false }} />
       </Stack>
     </ThemeProvider>
   );

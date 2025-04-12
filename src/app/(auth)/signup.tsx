@@ -33,7 +33,7 @@ export default function SignUpScreen() {
         if (!name || !surname || !username || !email || !password) {
             alert('Por favor completa todos los campos.');
             return;
-          }
+        }
 
         if (username.length < 5 || username.length > 20 || !/^[a-zA-Z0-9_]+$/.test(username)) {
             alert('El nombre de usuario debe tener entre 5 y 20 caracteres y solo puede incluir letras, números y _');
@@ -58,8 +58,11 @@ export default function SignUpScreen() {
             return;
         }
 
-        alert(`Genial ${name}! Tu cuenta fue creada con éxito.`);
-        router.push('/(auth)/signin');
+        // Si el usuario ya fue autenticado, ir directamente al onboarding
+        if (data.session?.user) {
+            alert(`Genial ${name}! Tu cuenta fue creada con éxito.`);
+            router.replace('/(onboarding)');
+        }
     };
 
 

@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     //justifyContent: 'center',
   },
   title: {
-    color: 'red',
+    color: 'orange',
     fontSize: 20,
     fontWeight: 'bold',
   },
