@@ -39,7 +39,7 @@ export default function HomeScreen() {
 
   useEffect(() => {
     checkSession(); // Al cargar la pantalla
-    
+
     const subscription = AppState.addEventListener('change', nextAppState => {
       if (
         appState.current.match(/inactive|background/) &&
@@ -56,7 +56,7 @@ export default function HomeScreen() {
   }, []);
 
   if (checkingSession) {
-    return null; // O puedes poner un loading spinner si deseas
+    return null;
   }
 
   return (

@@ -66,16 +66,12 @@ function RootLayoutNav() {
   return (
     <ThemeProvider value={MyTheme}>
       <Stack>
-        <Stack.Screen
-          name="index"
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen name="(auth)/signin"/>
-        <Stack.Screen name="(auth)/signup"/>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }}/>
+        <Stack.Screen name="index" options={{ headerShown: false, }} />
+        <Stack.Screen name="(auth)/signin" />
+        <Stack.Screen name="(auth)/signup" />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="(onboarding)/index" options={{ headerShown: false }} />
+        <Stack.Screen name="profileModal" options={{ presentation: 'modal' }} />
       </Stack>
     </ThemeProvider>
   );

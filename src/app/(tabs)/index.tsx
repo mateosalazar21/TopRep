@@ -1,38 +1,23 @@
 import { StyleSheet, Text, View, Image } from 'react-native';
+import { Link } from 'expo-router';
 
 
 
 
 export default function TabOneScreen() {
   return (
-    <View style={styles.container}>
+    <View className='flex-1 items-center justify-center'>
       <View>
-        <Text style={styles.title}>Hola, Usuario</Text>
+        <Text>Hola, Usuario</Text>
         <Text>Es hora de desafiar tus límites.</Text>
+      </View>
+        <Text>
+          Open modal
+        </Text>
+      <View>
+
       </View>
     </View>
 
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    //flex: 1,
-    //alignItems: 'center',
-    //justifyContent: 'center',
-  },
-  title: {
-    color: 'orange',
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-  img: {
-    width: 10,
-    height: 10,
-  }
-});

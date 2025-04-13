@@ -1,9 +1,9 @@
 import React from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Link, Tabs } from 'expo-router';
-import { Pressable } from 'react-native';
+import HeaderProfileButton from '@/components/HeaderProfileButton';
 
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
+
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
   color: string;
@@ -17,8 +17,9 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab Pepe',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />
+          headerShown: true,
+          headerTransparent: true,
+          headerRight: () => <HeaderProfileButton />,
         }}
       />
       <Tabs.Screen
