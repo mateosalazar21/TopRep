@@ -9,9 +9,9 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 //
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-//import { useColorScheme } from '@/src/components/useColorScheme';
 import { useColorScheme } from 'nativewind';
 import { MyTheme } from '@/utilities/themeOptions';
+import { AuthProvider } from '@/context/AuthContext';
 
 import {
   Poppins_400Regular,
@@ -26,7 +26,6 @@ export {
 } from 'expo-router';
 
 export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
   initialRouteName: 'index.tsx',
 };
 
@@ -65,6 +64,7 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={MyTheme}>
+      <AuthProvider>
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false, }} />
         <Stack.Screen name="(auth)/signin" />
@@ -73,6 +73,7 @@ function RootLayoutNav() {
         <Stack.Screen name="(onboarding)/index" options={{ headerShown: false }} />
         <Stack.Screen name="profileModal" options={{ presentation: 'modal' }} />
       </Stack>
+      </AuthProvider>
     </ThemeProvider>
   );
 }

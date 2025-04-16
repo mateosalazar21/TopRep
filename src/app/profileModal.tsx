@@ -1,30 +1,24 @@
-import { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Alert } from 'react-native';
-import { supabase } from '@/lib/supabase';
-import { useRouter, router } from 'expo-router';
+import { useRouter } from 'expo-router';
+import { useAuth } from '@/context/AuthContext';
 
-export default function TabTwoScreen() {
+export default function ProfileModal() {
   const router = useRouter();
-  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const { user, signOut, loading } = useAuth();
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const { data, error } = await supabase.auth.getSession();
-      if (data?.session?.user?.email) {
-        setUserEmail(data.session.user.email);
-      }
-    };
-    fetchUser();
-  }, []);
+  if (loading) {
+    return null;
+  }
 
   const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      Alert.alert('Error al cerrar sesión', error.message);
-    } else {
+    try {
+      await signOut();
       router.replace('/');
+    } catch (error: any) {
+      Alert.alert('Error al cerrar sesión', error.message || 'Algo salió mal');
     }
   };
+
 
   return (
     <View className="flex-1 items-center justify-center px-6">
@@ -32,10 +26,10 @@ export default function TabTwoScreen() {
         Perfil del Usuario
       </Text>
 
-      {userEmail ? (
+      {user?.email ? (
         <>
           <Text className="text-stone-300 text-base mb-4">
-            Sesión activa: {userEmail}
+            Sesión activa: {user.email}
           </Text>
           <TouchableOpacity
             onPress={handleLogout}
