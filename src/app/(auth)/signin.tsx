@@ -31,13 +31,6 @@ export default function SignInScreen() {
         })
     }, [navigation]);
 
-    // // 📌 Mostrar alerta si el usuario viene de "signup"
-    // useEffect(() => {
-    //     if (from === 'signup') {
-    //         Alert.alert('Ingresa con los datos con los que te registraste.');
-    //     }
-    // }, [from]);
-
 
     // 📌 Nueva función de login
     const handleLogin = async () => {
