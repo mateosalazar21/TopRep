@@ -1,28 +1,32 @@
 import { View, Text, Image, TouchableOpacity, AppState } from 'react-native';
 import { useRouter } from 'expo-router';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
+import FullScreenLoader from '@/components/ui/FullScreenLoader';
 
 export default function HomeScreen() {
   const router = useRouter();
-  const { user, onboardingCompleted, loading } = useAuth();
+  const { user, onboardingCompleted, loading, checkingOnboarding } = useAuth();
 
   useEffect(() => {
-    if (!loading && user) {
+    // ✅ Solo redirigir cuando TODO esté listo
+    if (!loading && !checkingOnboarding && user) {
       if (onboardingCompleted) {
         router.replace('/(tabs)');
       } else {
         router.replace('/(onboarding)');
       }
     }
-  }, [loading, user, onboardingCompleted]);
+  }, [loading, checkingOnboarding, user, onboardingCompleted]);
 
-  if (loading || user) {
-    return null;
+  // Mostrar splash mientras se cargan sesión y estado de onboarding
+  if (loading || checkingOnboarding) {
+    return <FullScreenLoader message="Cargando sesión..." opaque />;
   }
 
   return (
     <View
+      key={user?.id ?? 'guest'}
       className='flex-1 items-center justify-strech px-1' >
 
       {/*Logo*/}

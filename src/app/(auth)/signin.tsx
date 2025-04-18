@@ -1,17 +1,28 @@
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useEffect, useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
+import { useRouter, useLocalSearchParams } from 'expo-router';
+import { supabase } from '@/lib/supabase';
+import React from 'react';
+
 import { Input } from '@/components/reusables/ui/input'
 import { Label } from '@/components/reusables/ui/label';
 import { Eye, EyeOff } from 'lucide-react-native';
-import React from 'react';
-import { useLocalSearchParams } from 'expo-router';
-import { supabase } from '@/lib/supabase';
-import { useRouter } from 'expo-router';
+import FullScreenLoader from '@/components/ui/FullScreenLoader';
+
 
 export default function SignInScreen() {
-
     const navigation = useNavigation();
+    const router = useRouter();
+    //const { from } = useLocalSearchParams();
+
+    // 📌 Estado de inputs y loadertyrion@mail.com
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
+    // 📌 Personalización del header
     useLayoutEffect(() => {
         navigation.setOptions({
             title: 'Ingresa tus datos',
@@ -20,107 +31,81 @@ export default function SignInScreen() {
         })
     }, [navigation]);
 
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
-    const [showPassword, setShowPassword] = React.useState(false);
-    const router = useRouter();
+    // // 📌 Mostrar alerta si el usuario viene de "signup"
+    // useEffect(() => {
+    //     if (from === 'signup') {
+    //         Alert.alert('Ingresa con los datos con los que te registraste.');
+    //     }
+    // }, [from]);
 
+
+    // 📌 Nueva función de login
     const handleLogin = async () => {
         if (!email || !password) {
-            alert('Por favor completa tu correo y contraseña');
+            Alert.alert('Campos incompletos, por favor completa tu correo y contraseña');
             return;
         }
 
-        // Paso 1: Iniciar sesión con Supabase Auth
-        const { data, error } = await supabase.auth.signInWithPassword({
+        setIsLoading(true);
+
+        const { error } = await supabase.auth.signInWithPassword({
             email,
             password,
         });
 
         if (error) {
             console.error('LOGIN ERROR:', error);
-            alert('Error al iniciar sesión: ' + error.message);
+            Alert.alert('Error al iniciar sesión: ' + error.message);
+            setIsLoading(false);
             return;
         }
 
-        //alert('¡Bienvenid@!');
-        //router.replace('/(tabs)');
-        const user = data?.user;
+        // ✅ La sesión se guarda automáticamente en AsyncStorage
+        // ✅ AuthContext se actualiza con onAuthStateChange
+        // ✅ index.tsx redirige según el estado de onboarding
 
-        if (!user) {
-            alert('Ocurrió un error inesperado al obtener el usuario.');
-            return;
-        }
-
-        // Paso 2: Consultar el perfil del usuario en tu tabla athletes
-        const { data: profileData, error: profileError } = await supabase
-            .from('athletes')
-            .select('onboarding_completed')
-            .eq('athlete_id', user.id)
-            .single();
-
-        if (profileError || !profileData) {
-            console.error('ERROR AL CONSULTAR PERFIL:', profileError);
-            alert('No se pudo obtener la información del perfil del usuario.');
-            return;
-        }
-
-        // Paso 3: Redirigir según estado de onboarding
-        if (profileData.onboarding_completed) {
-            router.replace('/(tabs)');
-        } else {
-            router.replace('/(onboarding)');
-        }
-
-
-
+        router.replace('/'); // 🔁 Solo lo mandamos al index para que la lógica fluya
     };
 
-
-    const { from } = useLocalSearchParams();
-
-    useEffect(() => {
-        if (from === 'signup') {
-            alert('Ingresa con los datos que usaste para registrarte.');
-        }
-    }, [from]);
-
+    // 🎨 Estilo compartido para inputs
     const inputStyle = "bg-stone-50 text-stone-700 border-stone-700 rounded-xl px-4 py-3 font-poppinsMedium";
 
 
     return (
         <View className='flex-1 items-center justify-center'>
+            {isLoading && <FullScreenLoader message="Iniciando sesión..." />}
 
             <View className='w-4/5'>
-                <Label nativeID='inputLabel' className='text-stone-50 font-poppinsMedium mb-2'>
+                <Label nativeID='email' className='text-stone-50 font-poppinsMedium mb-2'>
                     Correo electrónico
                 </Label>
                 <Input
-                    placeholder='ejemplo@mail.com'
                     value={email}
                     onChangeText={setEmail}
+                    placeholder='correo@ejemplo.com'
                     autoCapitalize="none"
+                    keyboardType="email-address"
+                    className={inputStyle}
                     aria-labelledby='inputLabel'
                     aria-errormessage='inputError'
-                    className={inputStyle}
                 />
             </View>
 
             <View className='w-4/5 mt-5'>
 
-                <Label nativeID='inputLabelPassword' className='text-stone-50 text-lg font-poppinsMedium mb-2'>
+                <Label nativeID='password' className='text-stone-50 text-lg font-poppinsMedium mb-2'>
                     Contraseña
                 </Label>
 
                 <View className='flex-row items-center justify-between bg-stone-50 border-stone-700 rounded-xl'>
                     <Input
-                        placeholder='Contraseña'
                         value={password}
                         onChangeText={setPassword}
+                        placeholder='••••••••'
                         secureTextEntry={!showPassword}
+                        className='border-0 font-poppinsMedium text-stone-700 pl-5'
                         aria-labelledby='inputLabel'
                         aria-errormessage='inputError'
-                        className='border-0 font-poppinsMedium text-stone-700 pl-5'
                     />
                     <TouchableOpacity
 
@@ -147,19 +132,6 @@ export default function SignInScreen() {
                     </Text>
                 </TouchableOpacity>
             </View>
-
-            {/* <View className='w-4/5 mt-1'>
-                <TouchableOpacity
-                    onPress=''
-                    className='p-4 w-full items-center'
-                >
-                    <Text
-                        className='font-poppinsMedium text-xl text-stone-50'>
-                        RESTABLECER CONTRASEÑA
-                    </Text>
-                </TouchableOpacity>
-            </View> */}
-
         </View>
     );
 }
