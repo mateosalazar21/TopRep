@@ -1,81 +1,99 @@
-import { View, Text, Image, TouchableOpacity, AppState } from 'react-native';
-import { useRouter } from 'expo-router';
 import { useEffect } from 'react';
+import { useRouter } from 'expo-router';
 import { useAuth } from '@/context/AuthContext';
 import FullScreenLoader from '@/components/ui/FullScreenLoader';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 
 export default function HomeScreen() {
-  const router = useRouter();
-  const { user, onboardingCompleted, loading, checkingOnboarding } = useAuth();
+  const {
+    user,
+    onboardingCompleted,
+    formCompleted,
+    loading,
+    checkingOnboarding,
+    checkingForm,
+  } = useAuth();
 
+  const router = useRouter();
+
+  // 🧭 Solo redirigir cuando ya tenemos info
   useEffect(() => {
-    // ✅ Solo redirigir cuando TODO esté listo
-    if (!loading && !checkingOnboarding && user) {
-      if (onboardingCompleted) {
-        router.replace('/(tabs)');
-      } else {
+    if (
+      !loading &&
+      !checkingOnboarding &&
+      !checkingForm &&
+      user
+    ) {
+      if (!onboardingCompleted) {
         router.replace('/(onboarding)');
+      } else {
+        router.replace('/(tabs)');
       }
     }
-  }, [loading, checkingOnboarding, user, onboardingCompleted]);
+  }, [
+    user,
+    onboardingCompleted,
+    formCompleted,
+    loading,
+    checkingOnboarding,
+    checkingForm,
+  ]);
 
-  // Mostrar splash mientras se cargan sesión y estado de onboarding
-  if (loading || checkingOnboarding) {
+  // ✅ Mostrar splash mientras carga sesión
+  if (loading || checkingOnboarding || checkingForm) {
     return <FullScreenLoader message="Cargando sesión..." opaque />;
   }
 
-  return (
-    <View
-      key={user?.id ?? 'guest'}
-      className='flex-1 items-center justify-strech px-1' >
+  // ✅ Mostrar pantalla de bienvenida solo si NO hay usuario
+  if (!user) {
+    return (
+      <View
+        key={'guest'}
+        className='flex-1 items-center justify-strech px-1' >
 
-      {/*Logo*/}
-      <Image
-        source={require('../assets/icons/splash-icon-dark.png')}
-        className='w-1/2 h-1/2 mb-1'
-        resizeMode='contain'
-      />
-      {/*Grupo1*/}
-      <View className='w-4/5 items-center '>
-        <Text
-          className='font-poppinsSemiBold text-xl text-stone-50 mb-4 text-center'>
-          ¿Ya tienes una cuenta?
-        </Text>
-
-        <TouchableOpacity
-          className='bg-orange-600 p-4 rounded-full w-full items-center'
-          onPress={() => router.push('/(auth)/signin')}
-        >
-          <Text
-            className='font-poppinsSemiBold text-xl text-stone-50'
+        {/*Logo*/}
+        <Image
+          source={require('../assets/icons/splash-icon-dark.png')}
+          className='w-1/2 h-1/2 mb-1'
+          resizeMode='contain'
+        />
+        {/*Grupo1*/}
+        <View className='w-4/5 items-center '>
+          <Text className='font-poppinsSemiBold text-xl text-stone-50 mb-4 text-center'>
+            ¿Ya tienes una cuenta?
+          </Text>
+          <TouchableOpacity
+            className='bg-orange-600 p-4 rounded-full w-full items-center'
+            onPress={() => router.push('/(auth)/signin')}
           >
-            INGRESAR
+            <Text className='font-poppinsSemiBold text-xl text-stone-50'>
+              INGRESAR
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        {/*Separador*/}
+        <View className="w-10/12 h-px bg-stone-300 my-8" />
+
+        {/*Grupo2*/}
+        <View className='w-4/5 items-center'>
+          <Text className='font-poppinsSemiBold text-xl text-stone-50 mb-4 text-center'>
+            ¿Es tu primera vez en TopRep?
           </Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            className='bg-stone-50 p-4 rounded-full w-full items-center'
+            onPress={() => router.push('/(auth)/signup')}
+          >
+            <Text className='font-poppinsSemiBold text-xl text-orange-600'>
+              EMPIEZA AHORA
+            </Text>
+          </TouchableOpacity>
+        </View>
+
       </View>
+    );
+  }
 
-      {/*Separador*/}
-      <View className="w-10/12 h-px bg-stone-300 my-8" />
-
-
-      {/*Grupo2*/}
-      <View className='w-4/5 items-center'>
-        <Text
-          className='font-poppinsSemiBold text-xl text-stone-50 mb-4 text-center'>
-          ¿Es tu primera vez en TopRep?
-        </Text>
-        <TouchableOpacity
-          className='bg-stone-50 p-4 rounded-full w-full items-center'
-          onPress={() => router.push('/(auth)/signup')}
-        >
-          <Text
-            className='font-poppinsSemiBold text-xl text-orange-600'>
-            EMPIEZA AHORA
-          </Text>
-        </TouchableOpacity>
-      </View>
-
-    </View>
-  );
+  // ⚠️ Caso intermedio (fallback de seguridad)
+  return null;
 }
-

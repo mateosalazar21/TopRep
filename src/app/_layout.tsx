@@ -72,6 +72,7 @@ function RootLayoutNav() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="(onboarding)/index" options={{ headerShown: false }} />
         <Stack.Screen name="profileModal" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="(form)" options={{ headerShown: false }} />
       </Stack>
       </AuthProvider>
     </ThemeProvider>
