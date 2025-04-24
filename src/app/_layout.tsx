@@ -65,15 +65,69 @@ function RootLayoutNav() {
   return (
     <ThemeProvider value={MyTheme}>
       <AuthProvider>
-      <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false, }} />
-        <Stack.Screen name="(auth)/signin" />
-        <Stack.Screen name="(auth)/signup" />
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="(onboarding)/index" options={{ headerShown: false }} />
-        <Stack.Screen name="profileModal" options={{ presentation: 'modal' }} />
-        <Stack.Screen name="(form)" options={{ headerShown: false }} />
-      </Stack>
+        <Stack>
+          <Stack.Screen name="index" options={{ headerShown: false, }} />
+          <Stack.Screen name="(auth)/signin" />
+          <Stack.Screen name="(auth)/signup" />
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="(onboarding)/index" options={{ headerShown: false }} />
+          <Stack.Screen name="profileModal" options={{ presentation: 'modal' }} />
+          <Stack.Screen name="(form)" options={{ headerShown: false }} />
+
+          <Stack.Screen
+            name="goalsActions/step1_select-goal-type"
+            options={{
+              headerTitle: '',
+              headerTransparent: true,
+              headerBackButtonDisplayMode: 'minimal',
+            }}
+          />
+          <Stack.Screen
+            name="goalsActions/step2_create-goal"
+            options={{
+              headerTitle: '',
+              headerTransparent: true,
+              headerBackButtonDisplayMode: 'minimal',
+            }}
+          />
+
+          <Stack.Screen
+            name="goalsActions/step3_current-pr"
+            options={{
+              headerTitle: '',
+              headerTransparent: true,
+              headerBackButtonDisplayMode: 'minimal',
+            }}
+          />
+
+          <Stack.Screen
+            name="goalsActions/step4_target-percentage"
+            options={{
+              headerTitle: '',
+              headerTransparent: true,
+              headerBackButtonDisplayMode: 'minimal',
+            }}
+          />
+
+          <Stack.Screen
+            name="goalsActions/step5_weeks"
+            options={{
+              headerTitle: '',
+              headerTransparent: true,
+              headerBackButtonDisplayMode: 'minimal',
+            }}
+          />
+
+          <Stack.Screen
+            name="goalsActions/step6_summary"
+            options={{
+              headerTitle: '',
+              headerTransparent: true,
+              headerBackButtonDisplayMode: 'minimal',
+            }}
+          />
+
+        </Stack>
       </AuthProvider>
     </ThemeProvider>
   );

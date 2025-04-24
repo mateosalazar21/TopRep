@@ -8,8 +8,8 @@ export default function GreetingHeader() {
   const { user } = useAuth();
 
   return (
-    <View style={{ paddingTop: insets.top + 16 }} className="px-6">
-      <Text className="text-orange-500 text-xl font-poppinsSemiBold">
+    <View style={{ paddingTop: insets.top + 5 }} className="px-1 pb-5">
+      <Text className="text-orange-600 text-xl font-poppinsSemiBold">
         Hola, {user?.user_metadata?.athlete_name || 'Usuario'}
       </Text>
       <Text className="text-stone-50 text-base font-poppinsRegular mt-1">
