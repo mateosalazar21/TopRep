@@ -1,11 +1,39 @@
-import { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+
 import { useRouter } from 'expo-router';
+import { useState } from 'react';
+import { useAuth } from '@/context/AuthContext';
+import { supabase } from '@/lib/supabase';
 
 export default function Step4Height() {
-  const [height, setHeight] = useState('170');
+  
   const router = useRouter();
+  const { user } = useAuth();
+
+  const [height, setHeight] = useState('170');
+  const [initialHeight] = useState('170'); // para comparar si se cambió
+  const [isSaving, setIsSaving] = useState(false);
+
+  const updateHeight = async () => {
+    if (!user || height === initialHeight) return;
+
+    setIsSaving(true);
+
+    const { error } = await supabase
+      .from('athletes')
+      .update({ athlete_height_cm: Number(height) })
+      .eq('athlete_id', user.id);
+
+    setIsSaving(false);
+
+    if (!error) {
+      console.log('📏 Altura actualizada con éxito:', height);
+      router.push('/(form)/step5_crossfitLevel');
+    } else {
+      console.error('Error al guardar altura:', error.message);
+    }
+  };
 
   return (
     <View className="flex-1 px-6 pt-14 justify-between pb-10">
@@ -37,11 +65,11 @@ export default function Step4Height() {
       </View>
 
       {/* Picker */}
-      <View className="bg-neutral-800 rounded-2xl mt-10 mb-6">
+      <View className="border-orange-600 rounded-2xl mt-10 mb-6">
         <Picker
           selectedValue={height}
           onValueChange={(itemValue) => setHeight(itemValue)}
-          style={{ color: 'white', height: 180 }}
+          style={{ color: 'white'}}
           itemStyle={{ fontSize: 22 }}
         >
           {Array.from({ length: 121 }, (_, i) => 100 + i).map((val) => (
@@ -53,7 +81,10 @@ export default function Step4Height() {
       {/* Botones de navegación */}
       <View className="flex-row justify-between gap-4 mt-8">
         <TouchableOpacity
-          onPress={() => router.back()}
+          onPress={() => {
+            router.back() 
+            setHeight(initialHeight);
+          }}
           className="flex-1 bg-stone-100 py-4 rounded-full"
         >
           <Text className="text-center text-orange-600 font-poppinsBold text-lg">
@@ -62,11 +93,12 @@ export default function Step4Height() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => router.push('/(form)/step5_crossfitLevel')}
-          className="flex-1 bg-orange-600 py-4 rounded-full"
+          onPress={updateHeight}
+          disabled={height === initialHeight || isSaving}
+          className={`flex-1 py-4 rounded-full ${height === initialHeight ? 'bg-orange-400/60' : 'bg-orange-600'}`}
         >
           <Text className="text-center text-white font-poppinsBold text-lg">
-            CONTINUAR
+          {isSaving ? 'Guardando...' : 'CONTINUAR'}
           </Text>
         </TouchableOpacity>
       </View>

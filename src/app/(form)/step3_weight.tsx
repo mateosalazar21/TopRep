@@ -1,11 +1,45 @@
-import { useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+
+import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+
+import { useState } from 'react';
 import { useRouter } from 'expo-router';
+import { useAuth } from '@/context/AuthContext';
+import { supabase } from '@/lib/supabase';
+
 
 export default function Step3Weight() {
-  const [weight, setWeight] = useState('75');
   const router = useRouter();
+  const { user } = useAuth();
+
+  const defaultWeight = '75'; // Valor inicial predeterminado
+  const [weight, setWeight] = useState(defaultWeight);
+  const [hasChanged, setHasChanged] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleWeightChange = (value: string) => {
+    setWeight(value);
+    setHasChanged(value !== defaultWeight);
+  };
+
+  const handleContinue = async () => {
+    if (!user) return;
+    setIsLoading(true);
+
+    const { error } = await supabase
+      .from('athletes')
+      .update({ athlete_weight_lb: parseFloat(weight) })
+      .eq('athlete_id', user.id);
+
+    setIsLoading(false);
+
+    if (!error) {
+      console.log('📦 Peso guardado con éxito:', weight);
+      router.push('/(form)/step4_height');
+    } else {
+      console.error('Error al guardar peso:', error.message);
+    }
+  };
 
   return (
     <View className="flex-1 px-6 pt-14 justify-between pb-10">
@@ -31,12 +65,12 @@ export default function Step3Weight() {
       <View className="bg-orange-600 rounded-2xl mt-10 mb-6">
         <Picker
           selectedValue={weight}
-          onValueChange={(itemValue) => setWeight(itemValue)}
-          style={{ color: 'white', height: 180 }}
+          onValueChange={handleWeightChange}
+          style={{ color: 'white' }}
           itemStyle={{ fontSize: 22 }}
         >
-          {Array.from({ length: 151 }, (_, i) => 50 + i).map((val) => (
-            <Picker.Item key={val} label={`${val}`} value={`${val}`} />
+          {Array.from({ length: 200 }, (_, i) => i + 30).map((value) => (
+            <Picker.Item key={value} label={`${value} lb`} value={value.toString()} />
           ))}
         </Picker>
       </View>
@@ -44,7 +78,10 @@ export default function Step3Weight() {
       {/* Botones de navegación */}
       <View className="flex-row justify-between gap-4 mt-8">
         <TouchableOpacity
-          onPress={() => router.back()}
+          onPress={() => {
+            router.back();
+            setWeight(defaultWeight);
+          }}
           className="flex-1 bg-stone-100 py-4 rounded-full"
         >
           <Text className="text-center text-orange-600 font-poppinsBold text-lg">
@@ -53,11 +90,14 @@ export default function Step3Weight() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => router.push('/(form)/step4_height')}
-          className="flex-1 bg-orange-600 py-4 rounded-full"
+          onPress={handleContinue}
+          disabled={!hasChanged || isLoading}
+          className={`flex-1 py-4 rounded-full ${
+            hasChanged ? 'bg-orange-600' : 'bg-orange-400/60'
+          }`}
         >
           <Text className="text-center text-white font-poppinsBold text-lg">
-            CONTINUAR
+          {isLoading ? 'Guardando...' : 'CONTINUAR'}
           </Text>
         </TouchableOpacity>
       </View>

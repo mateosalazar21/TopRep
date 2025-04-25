@@ -1,14 +1,38 @@
 import React, { useState } from 'react';
 import { View, Text, Pressable, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
+import { supabase } from '@/lib/supabase';
+import { useAuth } from '@/context/AuthContext';
 
 export default function Step5CrossfitLevel() {
   const router = useRouter();
+  const { user } = useAuth();
   const [level, setLevel] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleContinue = () => {
-    if (!level) return;
-    router.push('/(form)/step6_goals');
+  const options = [
+    { label: 'PRINCIPIANTE', value: 'principiante', bg: 'bg-orange-600', textColor: 'text-white' },
+    { label: 'INTERMEDIO', value: 'intermedio', bg: 'bg-orange-300', textColor: 'text-white' },
+    { label: 'AVANZADO', value: 'avanzado', bg: 'bg-white', textColor: 'text-neutral-900' },
+  ];
+
+  const handleSaveLevel = async () => {
+    if (!user || !level) return;
+    setIsLoading(true);
+
+    const { error } = await supabase
+      .from('athletes')
+      .update({ athlete_crossfit_level: level })
+      .eq('athlete_id', user.id);
+
+    setIsLoading(false);
+
+    if (!error) {
+      console.log('✅ Nivel de CrossFit guardado:', level);
+      router.push('/(form)/step6_goals');
+    } else {
+      console.error('❌ Error al guardar nivel de CrossFit:', error.message);
+    }
   };
 
   const handleBack = () => {
@@ -16,11 +40,7 @@ export default function Step5CrossfitLevel() {
     router.back();
   };
 
-  const options = [
-    { label: 'PRINCIPIANTE', value: 'principiante', bg: 'bg-orange-600', textColor: 'text-white' },
-    { label: 'INTERMEDIO', value: 'intermedio', bg: 'bg-orange-300', textColor: 'text-white' },
-    { label: 'AVANZADO', value: 'avanzado', bg: 'bg-white', textColor: 'text-neutral-900' },
-  ];
+
 
   return (
     <View className="flex-1 px-6 pt-14 justify-between pb-10">
@@ -46,14 +66,12 @@ export default function Step5CrossfitLevel() {
             <Pressable
               key={option.value}
               onPress={() => setLevel(option.value)}
-              className={`py-4 rounded-full items-center ${
-                isActive ? option.bg : 'bg-neutral-800 border border-white/20'
-              }`}
+              className={`py-4 rounded-full items-center ${isActive ? option.bg : 'bg-neutral-800 border border-white/20'
+                }`}
             >
               <Text
-                className={`uppercase font-poppinsBold ${
-                  isActive ? option.textColor : 'text-white'
-                }`}
+                className={`uppercase font-poppinsBold ${isActive ? option.textColor : 'text-white'
+                  }`}
               >
                 {option.label}
               </Text>
@@ -74,14 +92,13 @@ export default function Step5CrossfitLevel() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={handleContinue}
-          disabled={!level}
-          className={`flex-1 py-4 rounded-full ${
-            level ? 'bg-orange-600' : 'bg-orange-400/60'
-          }`}
+          onPress={handleSaveLevel}
+          disabled={!level || isLoading}
+          className={`flex-1 py-4 rounded-full ${level ? 'bg-orange-600' : 'bg-orange-400/60'
+            }`}
         >
           <Text className="text-center text-white font-poppinsBold text-lg">
-            CONTINUAR
+          {isLoading ? 'Guardando...' : 'CONTINUAR'}
           </Text>
         </TouchableOpacity>
       </View>

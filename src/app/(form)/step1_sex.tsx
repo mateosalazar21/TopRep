@@ -1,20 +1,44 @@
-// src/app/(form)/step1_sex.tsx
 import { useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Mars, Venus } from 'lucide-react-native';
+import { supabase } from '@/lib/supabase';
+import { useAuth } from '@/context/AuthContext';
+
 
 export default function Step1Sex() {
-  const [selectedSex, setSelectedSex] = useState<'masculino' | 'femenino' | null>(null);
   const router = useRouter();
+  const { user } = useAuth();
+
+  const [selectedSex, setSelectedSex] = useState<'masculino' | 'femenino' | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
 
   const handleSelect = (sex: 'masculino' | 'femenino') => {
     setSelectedSex(sex);
   };
 
+  const handleContinue = async () => {
+    if (!user || !selectedSex) return;
+    setIsSaving(true);
+
+    const { error } = await supabase
+      .from('athletes')
+      .update({ athlete_sex: selectedSex })
+      .eq('athlete_id', user.id);
+
+    setIsSaving(false);
+
+    if (error) {
+      console.error('Error al guardar sexo:', error);
+      Alert.alert('Error', 'No se pudo guardar tu información. Inténtalo de nuevo.');
+      return;
+    }
+    console.log('✅ Sexo guardado correctamente:', selectedSex);
+    router.push('/(form)/step2_birthdate');
+  };
   return (
     <View className="flex-1  px-6 pt-14 justify-between pb-10">
-      
+
       {/* Progreso */}
       <View className="w-full pt-6">
         <View className="h-2 bg-neutral-700 rounded-full">
@@ -31,9 +55,8 @@ export default function Step1Sex() {
       <View className="gap-10 items-center mt-10">
         <TouchableOpacity
           onPress={() => handleSelect('masculino')}
-          className={`items-center justify-center rounded-full w-40 h-40 ${
-            selectedSex === 'masculino' ? 'bg-orange-600' : 'bg-neutral-700'
-          }`}
+          className={`items-center justify-center rounded-full w-40 h-40 ${selectedSex === 'masculino' ? 'bg-orange-600' : 'bg-neutral-700'
+            }`}
         >
           <Mars size={50} color="white" />
           <Text className="text-white font-poppinsMedium mt-2">Masculino</Text>
@@ -41,9 +64,8 @@ export default function Step1Sex() {
 
         <TouchableOpacity
           onPress={() => handleSelect('femenino')}
-          className={`items-center justify-center rounded-full w-40 h-40 ${
-            selectedSex === 'femenino' ? 'bg-orange-300' : 'bg-neutral-700'
-          }`}
+          className={`items-center justify-center rounded-full w-40 h-40 ${selectedSex === 'femenino' ? 'bg-orange-300' : 'bg-neutral-700'
+            }`}
         >
           <Venus size={50} color="white" />
           <Text className="text-white font-poppinsMedium mt-2">Femenino</Text>
@@ -63,16 +85,12 @@ export default function Step1Sex() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          disabled={!selectedSex}
-          onPress={() => {
-            // Aquí luego haremos la actualización en Supabase
-            router.push('/(form)/step2_birthdate');
-          }}
-          className={`flex-1 py-4 rounded-full ${
-            selectedSex ? 'bg-orange-600' : 'bg-orange-400 opacity-50'
-          }`}
+          disabled={!selectedSex || isSaving}
+          onPress={handleContinue}
+          className={`flex-1 py-4 rounded-full ${selectedSex ? 'bg-orange-600' : 'bg-orange-400 opacity-50'
+            }`}
         >
-          <Text className="text-center text-white font-poppinsBold text-lg">CONTINUAR</Text>
+          <Text className="text-center text-white font-poppinsBold text-lg">{isSaving ? 'Guardando...' : 'CONTINUAR'}</Text>
         </TouchableOpacity>
       </View>
     </View>
