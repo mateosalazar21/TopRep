@@ -1,9 +1,8 @@
-// src/app/goalsActions/select-goal-type.tsx
-
 import { View, Text, Pressable, TouchableOpacity } from 'react-native';
 import { useState } from 'react';
 import { useRouter } from 'expo-router';
-import { HelpCircle } from 'lucide-react-native';
+import InfoButton from '@/components/ui/InfoButton';
+
 
 export default function SelectGoalType() {
   const router = useRouter();
@@ -61,10 +60,12 @@ export default function SelectGoalType() {
                   : 'bg-neutral-800 border border-white/20'
                   }`}
               >
-                <Text className="text-white font-poppinsBold">
+                <Text className="text-white font-poppinsBold flex-1 pr-2">
                   {goal.label}
                 </Text>
-                <HelpCircle size={20} color="white" />
+
+                <InfoButton description={goal.description} />
+
               </Pressable>
             </View>
           );
