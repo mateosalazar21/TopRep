@@ -5,13 +5,10 @@ import InfoButton from '@/components/ui/InfoButton';
 import { useGoalDraft } from '@/context/GoalDraftContext';
 import type { GoalType } from '@/context/GoalDraftContext';
 
-
-
 export default function SelectGoalType() {
   const router = useRouter();
   const [selectedGoal, setSelectedGoal] = useState<GoalType>(null);
   const { setGoal, goal } = useGoalDraft();
-
 
   const toggleGoal = (value: Exclude<GoalType, null>) => {
     setSelectedGoal((prev) => (prev === value ? null : value));
@@ -32,13 +29,15 @@ export default function SelectGoalType() {
       router.push('/createGoal/strength-pr/step2_pr_goals');
     } else if (selectedGoal === 'resistencia') {
       router.push('/createGoal/endurance-time/step2_select_exercise');
-    } else if (selectedGoal === 'gimnasticos') {
-      console.warn('🚧 Gymnastics flow not implemented yet');
     }
   };
 
-
-  const goals: { label: string; value: Exclude<GoalType, null>; description: string }[] = [
+  // Eliminamos 'gimnasticos' temporalmente
+  const goals: {
+    label: string;
+    value: Exclude<GoalType, null>;
+    description: string;
+  }[] = [
     {
       label: '💪 PR en levantamientos',
       value: 'pr_levantamientos',
@@ -48,11 +47,6 @@ export default function SelectGoalType() {
       label: '🏃‍♂️ Tiempo en resistencia',
       value: 'resistencia',
       description: 'Reducir tus tiempos en WODs de larga duración o pruebas de cardio.',
-    },
-    {
-      label: '🤸 Reps gimnásticos',
-      value: 'gimnasticos',
-      description: 'Aumentar repeticiones en pull-ups, muscle-ups, etc.',
     },
   ];
 
@@ -64,24 +58,28 @@ export default function SelectGoalType() {
       </Text>
 
       {/* Lista de metas */}
-      <View className="gap-4 mb-10">
+      <View className="gap-6 mb-10">
         {goals.map((goal) => {
           const isActive = selectedGoal === goal.value;
           return (
             <View key={goal.value} className="relative">
               <Pressable
                 onPress={() => toggleGoal(goal.value)}
-                className={`flex-row justify-between items-center py-4 px-5 rounded-2xl border ${isActive
+                className={`flex-row justify-between items-center py-6 px-6 rounded-2xl border ${isActive
                   ? 'border-orange-600 bg-orange-700/50'
                   : 'bg-neutral-900 border-white/20'
                   }`}
               >
-                <Text className="text-white font-poppinsMedium flex-1 pr-2">
-                  {goal.label}
-                </Text>
+                <View className="flex-1 pr-4">
+                  <Text className="text-white text-xl font-poppinsBold mb-1">
+                    {goal.label}
+                  </Text>
+                  <Text className="text-stone-300 text-sm font-poppinsRegular">
+                    {goal.description}
+                  </Text>
+                </View>
 
                 <InfoButton description={goal.description} />
-
               </Pressable>
             </View>
           );

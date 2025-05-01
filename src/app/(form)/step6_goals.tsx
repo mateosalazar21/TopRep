@@ -1,9 +1,9 @@
 import { View, Text, Pressable, TouchableOpacity } from 'react-native';
 import { useState } from 'react';
 import { useRouter } from 'expo-router';
-import { HelpCircle } from 'lucide-react-native';
 import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabase';
+import InfoButton from '@/components/ui/InfoButton';
 
 export default function Step6Goals() {
   const router = useRouter();
@@ -52,11 +52,7 @@ export default function Step6Goals() {
       value: 'resistencia',
       description: 'Reducir tus tiempos en WODs de larga duración o pruebas de cardio.',
     },
-    {
-      label: '🤸 Reps gimnásticos',
-      value: 'gimnasticos',
-      description: 'Aumentar la cantidad de repeticiones en pull-ups, muscle-ups, handstand push-ups y similares.',
-    },
+    // 🛑 'gimnasticos' eliminado temporalmente
   ];
 
   return (
@@ -87,7 +83,7 @@ export default function Step6Goals() {
                 }`}
               >
                 <Text className="text-white font-poppinsBold">{goal.label}</Text>
-                <HelpCircle size={20} color="white" />
+                <InfoButton description={goal.description} />
               </Pressable>
             </View>
           );
