@@ -40,7 +40,7 @@ const InfoButton = ({ description }: InfoButtonProps) => {
               maxWidth: '80%',
             }}
           >
-            <Text style={{ color: 'white', fontSize: 16, textAlign: 'center' }}>
+            <Text style={{ color: 'white', fontSize: 14, fontFamily: 'poppins', textAlign: 'center' }}>
               {description}
             </Text>
             <TouchableOpacity
@@ -54,7 +54,7 @@ const InfoButton = ({ description }: InfoButtonProps) => {
                 alignSelf: 'center',
               }}
             >
-              <Text style={{ color: 'white', fontWeight: 'bold' }}>Entendido</Text>
+              <Text style={{ color: 'white',fontFamily: 'poppins', fontWeight: 'bold' }}>Entendido</Text>
             </TouchableOpacity>
           </View>
         </Pressable>

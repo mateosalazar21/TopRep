@@ -2,13 +2,18 @@ import { View, Text, Pressable, TouchableOpacity } from 'react-native';
 import { useState } from 'react';
 import { useRouter } from 'expo-router';
 import InfoButton from '@/components/ui/InfoButton';
+import { useGoalDraft } from '@/context/GoalDraftContext';
+import type { GoalType } from '@/context/GoalDraftContext';
+
 
 
 export default function SelectGoalType() {
   const router = useRouter();
-  const [selectedGoal, setSelectedGoal] = useState<string | null>(null);
+  const [selectedGoal, setSelectedGoal] = useState<GoalType>(null);
+  const { setGoal, goal } = useGoalDraft();
 
-  const toggleGoal = (value: string) => {
+
+  const toggleGoal = (value: Exclude<GoalType, null>) => {
     setSelectedGoal((prev) => (prev === value ? null : value));
   };
 
@@ -17,16 +22,25 @@ export default function SelectGoalType() {
     router.back();
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (!selectedGoal) return;
-    router.push('/goalsActions/step2_create-goal');
+
+    setGoal({ goal_type: selectedGoal });
+    console.log('✅ Contexto actualizado:', goal);
+
+    if (selectedGoal === 'pr_levantamientos') {
+      router.push('/createGoal/strength-pr/step2_pr_goals');
+    } else {
+      console.warn('🚧 Meta aún no implementada:', selectedGoal);
+    }
   };
 
-  const goals = [
+
+  const goals: { label: string; value: Exclude<GoalType, null>; description: string }[] = [
     {
       label: '💪 PR en levantamientos',
       value: 'pr_levantamientos',
-      description: 'Mejorar tus cargas máximas en ejercicios como sentadilla, clean & jerk y snatch.',
+      description: 'Mejorar tus cargas máximas en squat, deadlift, clean & jerk o snatch.',
     },
     {
       label: '🏃‍♂️ Tiempo en resistencia',
@@ -55,12 +69,12 @@ export default function SelectGoalType() {
             <View key={goal.value} className="relative">
               <Pressable
                 onPress={() => toggleGoal(goal.value)}
-                className={`flex-row justify-between items-center py-4 px-5 rounded-full ${isActive
-                  ? 'bg-orange-600'
-                  : 'bg-neutral-800 border border-white/20'
+                className={`flex-row justify-between items-center py-4 px-5 rounded-2xl border ${isActive
+                  ? 'border-orange-600 bg-orange-700/50'
+                  : 'bg-neutral-900 border-white/20'
                   }`}
               >
-                <Text className="text-white font-poppinsBold flex-1 pr-2">
+                <Text className="text-white font-poppinsMedium flex-1 pr-2">
                   {goal.label}
                 </Text>
 

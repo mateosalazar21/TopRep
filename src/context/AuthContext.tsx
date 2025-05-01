@@ -38,7 +38,7 @@ import {
       const getInitialSession = async () => {
         const { data } = await supabase.auth.getSession();
         const session = data.session;
-        console.log('[AUTH] Sesión inicial:', session);
+        //console.log('[AUTH] Sesión inicial:', session);
   
         if (session?.user) {
           setUser(session.user);

@@ -13,6 +13,8 @@ import { useColorScheme } from 'nativewind';
 import { MyTheme } from '@/utilities/themeOptions';
 import { AuthProvider } from '@/context/AuthContext';
 
+import { GoalDraftProvider } from '@/context/GoalDraftContext';
+
 import {
   Poppins_400Regular,
   Poppins_500Medium,
@@ -65,69 +67,62 @@ function RootLayoutNav() {
   return (
     <ThemeProvider value={MyTheme}>
       <AuthProvider>
-        <Stack>
-          <Stack.Screen name="index" options={{ headerShown: false, }} />
-          <Stack.Screen name="(auth)/signin" />
-          <Stack.Screen name="(auth)/signup" />
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="(onboarding)/index" options={{ headerShown: false }} />
-          <Stack.Screen name="profileModal" options={{ presentation: 'modal' }} />
-          <Stack.Screen name="(form)" options={{ headerShown: false }} />
+        <GoalDraftProvider>
+          <Stack>
+            <Stack.Screen name="index" options={{ headerShown: false, }} />
+            <Stack.Screen name="(auth)/signin" />
+            <Stack.Screen name="(auth)/signup" />
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="(onboarding)/index" options={{ headerShown: false }} />
+            <Stack.Screen name="profileModal" options={{ presentation: 'modal' }} />
+            <Stack.Screen name="(form)" options={{ headerShown: false }} />
 
-          <Stack.Screen
-            name="goalsActions/step1_select-goal-type"
-            options={{
-              headerTitle: '',
-              headerTransparent: true,
-              headerBackButtonDisplayMode: 'minimal',
-            }}
-          />
-          <Stack.Screen
-            name="goalsActions/step2_create-goal"
-            options={{
-              headerTitle: '',
-              headerTransparent: true,
-              headerBackButtonDisplayMode: 'minimal',
-            }}
-          />
 
-          <Stack.Screen
-            name="goalsActions/step3_current-pr"
-            options={{
-              headerTitle: '',
-              headerTransparent: true,
-              headerBackButtonDisplayMode: 'minimal',
-            }}
-          />
+            <Stack.Screen
+              name="createGoal/step1_select-goal-type"
+              options={{
+                headerTitle: '',
+                headerTransparent: true,
+                headerBackButtonDisplayMode: 'minimal',
+              }}
+            />
+            <Stack.Screen
+              name="createGoal/strength-pr/step2_pr_goals"
+              options={{
+                headerTitle: '',
+                headerTransparent: true,
+                headerBackButtonDisplayMode: 'minimal',
+              }}
+            />
 
-          <Stack.Screen
-            name="goalsActions/step4_target-percentage"
-            options={{
-              headerTitle: '',
-              headerTransparent: true,
-              headerBackButtonDisplayMode: 'minimal',
-            }}
-          />
+            <Stack.Screen
+              name="createGoal/strength-pr/step3_current_pr"
+              options={{
+                headerTitle: '',
+                headerTransparent: true,
+                headerBackButtonDisplayMode: 'minimal',
+              }}
+            />
 
-          <Stack.Screen
-            name="goalsActions/step5_weeks"
-            options={{
-              headerTitle: '',
-              headerTransparent: true,
-              headerBackButtonDisplayMode: 'minimal',
-            }}
-          />
+            <Stack.Screen
+              name="createGoal/strength-pr/step4_improvement_plan"
+              options={{
+                headerTitle: '',
+                headerTransparent: true,
+                headerBackButtonDisplayMode: 'minimal',
+              }}
+            />
 
-          <Stack.Screen
-            name="goalsActions/step6_summary"
-            options={{
-              headerTitle: '',
-              headerTransparent: true,
-              headerBackButtonDisplayMode: 'minimal',
-            }}
-          />
-
-        </Stack>
+            <Stack.Screen
+              name="createGoal/strength-pr/step5_summary"
+              options={{
+                headerTitle: '',
+                headerTransparent: true,
+                headerBackButtonDisplayMode: 'minimal',
+              }}
+            />
+          </Stack>
+        </GoalDraftProvider>
       </AuthProvider>
     </ThemeProvider>
   );
