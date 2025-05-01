@@ -30,8 +30,10 @@ export default function SelectGoalType() {
 
     if (selectedGoal === 'pr_levantamientos') {
       router.push('/createGoal/strength-pr/step2_pr_goals');
-    } else {
-      console.warn('🚧 Meta aún no implementada:', selectedGoal);
+    } else if (selectedGoal === 'resistencia') {
+      router.push('/createGoal/endurance-time/step2_select_exercise');
+    } else if (selectedGoal === 'gimnasticos') {
+      console.warn('🚧 Gymnastics flow not implemented yet');
     }
   };
 

@@ -121,6 +121,43 @@ function RootLayoutNav() {
                 headerBackButtonDisplayMode: 'minimal',
               }}
             />
+
+            <Stack.Screen
+              name="createGoal/endurance-time/step2_select_exercise"
+              options={{
+                headerTitle: '',
+                headerTransparent: true,
+                headerBackButtonDisplayMode: 'minimal',
+              }}
+            />
+
+            <Stack.Screen
+              name="createGoal/endurance-time/step3_current_time"
+              options={{
+                headerTitle: '',
+                headerTransparent: true,
+                headerBackButtonDisplayMode: 'minimal',
+              }}
+            />
+
+            <Stack.Screen
+              name="createGoal/endurance-time/step4_select_target_level"
+              options={{
+                headerTitle: '',
+                headerTransparent: true,
+                headerBackButtonDisplayMode: 'minimal',
+              }}
+            />
+
+            <Stack.Screen
+              name="createGoal/endurance-time/step5_summary_endurance"
+              options={{
+                headerTitle: '',
+                headerTransparent: true,
+                headerBackButtonDisplayMode: 'minimal',
+              }}
+            />
+
           </Stack>
         </GoalDraftProvider>
       </AuthProvider>
