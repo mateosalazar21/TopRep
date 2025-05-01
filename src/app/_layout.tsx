@@ -158,6 +158,15 @@ function RootLayoutNav() {
               }}
             />
 
+            <Stack.Screen
+              name="editGoal/edit-goals"
+              options={{
+                headerTitle: '',
+                headerTransparent: true,
+                headerBackButtonDisplayMode: 'minimal',
+              }}
+            />
+
           </Stack>
         </GoalDraftProvider>
       </AuthProvider>

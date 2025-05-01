@@ -87,7 +87,7 @@ export default function GoalsGate() {
         >
           <Pencil size={50} color="white" />
           <Text className="text-white font-poppinsMedium mt-2 text-center">
-            Editar metas
+            Ver metas
           </Text>
         </TouchableOpacity>
 
