@@ -1,7 +1,8 @@
-import React from 'react';
 import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
+import type { ICarouselInstance } from 'react-native-reanimated-carousel';
 import Carousel from 'react-native-reanimated-carousel';
 import { useRouter } from 'expo-router';
+import React from 'react';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 
 // Íconos desde lucide-react-native
@@ -26,33 +27,36 @@ const slides = [
     title: 'Recupera tu cuerpo',
     Icon: HeartPulse,
   },
-  {
-    title: '¡Llevemos tu rendimiento al siguiente nivel!',
-    Icon: Sparkle,
-    description:
-      'Para personalizar tu experiencia en TopRep, necesitamos algunos datos sobre ti.\nSolo tomará un minuto y nos ayudará a registrar tu progreso y adaptar la app a tus objetivos.',
-  },
 ];
 
 export default function OnboardingSwiper() {
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = React.useState(0);
-  const carouselRef = React.useRef(null);
+  const carouselRef = React.useRef<ICarouselInstance>(null);
+
 
   return (
-    <View className="flex-1 justify-center relative">
+    <View className="flex-1 justify-center">
 
       {/* Flechas indicativas */}
       {currentIndex > 0 && (
-        <View className="absolute left-4 top-1/2 -translate-y-1/2 z-10">
+        <TouchableOpacity
+          onPress={() => carouselRef.current?.prev()}
+          className="absolute left-4 top-1/22 z-10"
+        >
           <ChevronLeft color="#fff" size={32} />
-        </View>
+        </TouchableOpacity>
       )}
+
       {currentIndex < slides.length - 1 && (
-        <View className="absolute right-4 top-1/2 -translate-y-1/2 z-10">
+        <TouchableOpacity
+          onPress={() => carouselRef.current?.next()}
+          className="absolute right-4 top-1/22 z-10"
+        >
           <ChevronRight color="#fff" size={32} />
-        </View>
+        </TouchableOpacity>
       )}
+
       <Carousel
         ref={carouselRef}
         loop={false}
@@ -64,19 +68,14 @@ export default function OnboardingSwiper() {
 
         renderItem={({ item }) => (
 
-          <View className="items-center justify-center px-8">
+          <View className="h-[700px] items-center justify-center px-8">
 
             {/* Contenedor de la tarjeta */}
-            <View className="bg-orange-600 rounded-3xl p-10 w-full items-center">
+            <View className="bg-orange-600 rounded-xl p-10 w-full items-center justify-center h-[400px]">
               {item.Icon && <item.Icon color="white" size={64} />}
               <Text className="text-white text-xl font-poppinsBold text-center mt-6">
                 {item.title}
               </Text>
-              {item.description && (
-                <Text className="text-stone-100 text-base font-poppinsRegular text-center mt-4">
-                  {item.description}
-                </Text>
-              )}
             </View>
 
             {/* Indicadores de progreso */}
@@ -98,7 +97,7 @@ export default function OnboardingSwiper() {
       {currentIndex === slides.length - 1 && (
         <Animated.View
           entering={FadeInUp.duration(500)}
-          className="absolute bottom-10"
+          className="absolute bottom-24 left-1/3"
         >
           <TouchableOpacity
             onPress={() => completeOnboarding(supabase, router)}

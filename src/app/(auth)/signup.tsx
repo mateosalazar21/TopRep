@@ -1,4 +1,7 @@
-import { View, Text, TouchableOpacity } from 'react-native';
+import {
+    View, Text, TouchableOpacity, Keyboard,
+    TouchableWithoutFeedback,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useLayoutEffect } from 'react';
 import { Input } from '@/components/reusables/ui/input'
@@ -69,111 +72,113 @@ export default function SignUpScreen() {
     const inputStyle = "bg-stone-50 text-stone-700 border-stone-700 rounded-xl px-4 py-3 font-poppinsMedium"
 
     return (
-        <View className='flex-1 items-center justify-center '>
-            <View className='w-4/5'>
-                <Label nativeID='inputLabel' className='text-stone-50 font-poppinsMedium mb-2'>
-                    Nombre
-                </Label>
-                <Input
-                    placeholder='Ariel'
-                    value={name}
-                    onChangeText={setName}
-                    autoCapitalize="words"
-                    aria-labelledby='inputLabel'
-                    aria-errormessage='inputError'
-                    className={inputStyle}
-                />
-            </View>
-
-            <View className='w-4/5 mt-5'>
-                <Label nativeID='inputLabel' className='text-stone-50 font-poppinsMedium mb-2'>
-                    Apellido
-                </Label>
-                <Input
-                    placeholder='Pérez'
-                    value={surname}
-                    onChangeText={setSurname}
-                    autoCapitalize="words"
-                    aria-labelledby='inputLabel'
-                    aria-errormessage='inputError'
-                    className={inputStyle}
-                />
-            </View>
-
-            <View className='w-4/5 mt-5'>
-                <Label nativeID='inputLabel' className='text-stone-50 text-lg font-poppinsMedium mb-2'>
-                    Nombre de usuario
-                </Label>
-                <Input
-                    placeholder='Tu nombre de usuario'
-                    value={username}
-                    onChangeText={setUsername}
-                    aria-labelledby='inputLabel'
-                    aria-errormessage='inputError'
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    className={inputStyle}
-                />
-            </View>
-
-            <View className='w-4/5 mt-5'>
-                <Label nativeID='inputLabel' className='text-stone-50 text-lg font-poppinsMedium mb-2'>
-                    Correo electrónico
-                </Label>
-                <Input
-                    placeholder='ejemplo@mail.com'
-                    value={email}
-                    onChangeText={setEmail}
-                    aria-labelledby='inputLabel'
-                    aria-errormessage='inputError'
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    className={inputStyle}
-                />
-            </View>
-
-            <View className='w-4/5 mt-5'>
-
-                <Label nativeID='inputLabelPassword' className='text-stone-50 text-lg font-poppinsMedium mb-2'>
-                    Contraseña
-                </Label>
-
-                <View className='flex-row items-center justify-between bg-stone-50 border-stone-700 rounded-xl'>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+            <View className='flex-1 items-center pt-20 mt-20'>
+                <View className='w-4/5'>
+                    <Label nativeID='inputLabel' className='text-stone-50 font-poppinsMedium mb-2'>
+                        Nombre
+                    </Label>
                     <Input
-                        placeholder='Contraseña'
-                        value={password}
-                        onChangeText={setPassword}
-                        secureTextEntry={!showPassword}
+                        placeholder='Ariel'
+                        value={name}
+                        onChangeText={setName}
+                        autoCapitalize="words"
                         aria-labelledby='inputLabel'
                         aria-errormessage='inputError'
-                        className='border-0 font-poppinsMedium text-stone-700 pl-5'
+                        className={inputStyle}
                     />
-                    <TouchableOpacity
+                </View>
 
-                        className='pr-5'
-                        onPress={() => setShowPassword(prev => !prev)}
+                <View className='w-4/5 mt-5'>
+                    <Label nativeID='inputLabel' className='text-stone-50 font-poppinsMedium mb-2'>
+                        Apellido
+                    </Label>
+                    <Input
+                        placeholder='Pérez'
+                        value={surname}
+                        onChangeText={setSurname}
+                        autoCapitalize="words"
+                        aria-labelledby='inputLabel'
+                        aria-errormessage='inputError'
+                        className={inputStyle}
+                    />
+                </View>
+
+                <View className='w-4/5 mt-5'>
+                    <Label nativeID='inputLabel' className='text-stone-50 text-lg font-poppinsMedium mb-2'>
+                        Nombre de usuario
+                    </Label>
+                    <Input
+                        placeholder='Tu nombre de usuario'
+                        value={username}
+                        onChangeText={setUsername}
+                        aria-labelledby='inputLabel'
+                        aria-errormessage='inputError'
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        className={inputStyle}
+                    />
+                </View>
+
+                <View className='w-4/5 mt-5'>
+                    <Label nativeID='inputLabel' className='text-stone-50 text-lg font-poppinsMedium mb-2'>
+                        Correo electrónico
+                    </Label>
+                    <Input
+                        placeholder='ejemplo@mail.com'
+                        value={email}
+                        onChangeText={setEmail}
+                        aria-labelledby='inputLabel'
+                        aria-errormessage='inputError'
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        className={inputStyle}
+                    />
+                </View>
+
+                <View className='w-4/5 mt-5'>
+
+                    <Label nativeID='inputLabelPassword' className='text-stone-50 text-lg font-poppinsMedium mb-2'>
+                        Contraseña
+                    </Label>
+
+                    <View className='flex-row items-center justify-between bg-stone-50 border-stone-700 rounded-xl'>
+                        <Input
+                            placeholder='Contraseña'
+                            value={password}
+                            onChangeText={setPassword}
+                            secureTextEntry={!showPassword}
+                            aria-labelledby='inputLabel'
+                            aria-errormessage='inputError'
+                            className='border-0 font-poppinsMedium text-stone-700 pl-5'
+                        />
+                        <TouchableOpacity
+
+                            className='pr-5'
+                            onPress={() => setShowPassword(prev => !prev)}
+                        >
+                            {showPassword ? (
+                                <EyeOff color="#334155" size={20} />
+                            ) : (
+                                <Eye color="#334155" size={20} />
+                            )}
+                        </TouchableOpacity>
+                    </View>
+                </View>
+
+                <View className='w-4/5 mt-10'>
+                    <TouchableOpacity
+                        onPress={handleSignup}
+                        className='bg-orange-600 p-4 rounded-full w-full items-center'
                     >
-                        {showPassword ? (
-                            <EyeOff color="#334155" size={20} />
-                        ) : (
-                            <Eye color="#334155" size={20} />
-                        )}
+                        <Text
+                            className='font-poppinsSemiBold text-xl text-stone-50'>
+                            REGÍSTRATE
+                        </Text>
                     </TouchableOpacity>
                 </View>
-            </View>
 
-            <View className='w-4/5 mt-10'>
-                <TouchableOpacity
-                    onPress={handleSignup}
-                    className='bg-orange-600 p-4 rounded-full w-full items-center'
-                >
-                    <Text
-                        className='font-poppinsSemiBold text-xl text-stone-50'>
-                        REGÍSTRATE
-                    </Text>
-                </TouchableOpacity>
             </View>
-
-        </View>
+        </TouchableWithoutFeedback>
     );
 }

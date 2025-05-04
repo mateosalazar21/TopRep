@@ -167,6 +167,15 @@ function RootLayoutNav() {
               }}
             />
 
+            <Stack.Screen
+              name="challenge/[wod_id]"
+              options={{
+                headerTitle: '',
+                headerTransparent: true,
+                headerBackButtonDisplayMode: 'minimal',
+              }}
+            />
+
           </Stack>
         </GoalDraftProvider>
       </AuthProvider>
