@@ -65,7 +65,7 @@ export default function Step5Summary() {
 
         <Text className="text-white text-xl font-poppinsBold text-center leading-snug">
           Mejorar tu tiempo en {goal.endurance_exercise?.replace('_', ' ')}{'\n'}
-          de {formatTime(goal.current_time_sec || 0)} a {formatTime(goal.target_time_sec || 0)}
+          de {formatTime(goal.current_time_sec || 0)}min a {formatTime(goal.target_time_sec || 0)}min
         </Text>
 
         <Text className="text-stone-300 text-lg font-poppinsMedium text-center mt-4 mb-4">

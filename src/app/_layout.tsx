@@ -74,7 +74,7 @@ function RootLayoutNav() {
             <Stack.Screen name="(auth)/signup" />
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen name="(onboarding)/index" options={{ headerShown: false }} />
-            <Stack.Screen name="profileModal" options={{ presentation: 'modal' }} />
+            <Stack.Screen name="profileModal" options={{ presentation: 'modal', headerShown: false }} />
             <Stack.Screen name="(form)" options={{ headerShown: false }} />
 
 
@@ -168,7 +168,7 @@ function RootLayoutNav() {
             />
 
             <Stack.Screen
-              name="challenge/[wod_id]"
+              name="challenge/index"
               options={{
                 headerTitle: '',
                 headerTransparent: true,

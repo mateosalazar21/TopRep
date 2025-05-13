@@ -22,13 +22,13 @@ export default function ProfileModal() {
 
   return (
     <View className="flex-1 items-center justify-center px-6">
-      <Text className="text-white text-2xl font-poppinsBold mb-6">
+      <Text className="text-white text-2xl font-poppinsBold mb-4">
         Perfil del Usuario
       </Text>
 
       {user?.email ? (
         <>
-          <Text className="text-stone-300 text-base mb-4">
+          <Text className="text-stone-300 text-lg mb-4">
             Sesión activa: {user.email}
           </Text>
           <TouchableOpacity

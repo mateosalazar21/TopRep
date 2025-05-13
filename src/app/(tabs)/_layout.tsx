@@ -28,7 +28,7 @@ export default function TabLayout() {
         options={{
           tabBarLabel: 'Inicio', // ✅ Se muestra debajo del ícono
           headerTitle: '',       // ❌ No muestra nada en el header
-          tabBarIcon: ({ color }) => <House color={color} size={28} />,
+          tabBarIcon: ({ color }) => <House color={color} size={30} />,
           headerShown: true,
           headerTransparent: true,
           headerRight: () => <HeaderProfileButton />,
@@ -40,7 +40,7 @@ export default function TabLayout() {
         options={{
           tabBarLabel: 'Metas', // ✅ Se muestra debajo del ícono
           headerTitle: '',       // ❌ No muestra nada en el header
-          tabBarIcon: ({ color }) => <Goal color={color} size={28} />,
+          tabBarIcon: ({ color }) => <Goal color={color} size={30} />,
           headerTransparent: true,
           headerShown: true,
         }}
@@ -51,7 +51,7 @@ export default function TabLayout() {
         options={{
           tabBarLabel: 'Estadísticas', // ✅ Se muestra debajo del ícono
           headerTitle: '',       // ❌ No muestra nada en el header
-          tabBarIcon: ({ color }) => <ChartColumn color={color} size={28} />,
+          tabBarIcon: ({ color }) => <ChartColumn color={color} size={30} />,
           headerShown: true,
           headerTransparent: true,
         }}

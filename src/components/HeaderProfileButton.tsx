@@ -8,8 +8,8 @@ export default function HeaderProfileButton() {
   return (
     
     <Link href="/profileModal" asChild>
-        <Pressable className='mr-4'>
-            <User size={24} color="white" />
+        <Pressable className='mr-4 bg-stone-800 rounded-full p-2'>
+            <User size={28} color="white"/>
         </Pressable>
     </Link>
   );
