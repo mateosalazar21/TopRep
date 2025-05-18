@@ -4,6 +4,8 @@ import { supabase } from '@/lib/supabase';
 import { Clock } from 'lucide-react-native';
 import PersonalResultsList from '@/components/stats/PersonalStatsChart';
 import Leaderboard from '@/components/stats/Leaderboard';
+import CategorySelector from '@/components/ui/CategorySelector';
+
 
 export default function StatsScreen() {
   const [view, setView] = useState<'personal' | 'community'>('personal');
@@ -77,30 +79,16 @@ export default function StatsScreen() {
 
   return (
     <ScrollView className="flex-1 px-6 pt-20 pb-10">
-      {/* Tabs */}
-      <View className="flex-row justify-center gap-4 mb-6">
-        <TouchableOpacity
-          onPress={() => setView('personal')}
-          className={`flex-1 py-2 rounded-full ${
-            view === 'personal' ? 'bg-orange-600' : 'bg-stone-700'
-          }`}
-        >
-          <Text className="text-white text-center font-poppinsMedium">
-            Mis estadísticas
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => setView('community')}
-          className={`flex-1 py-2 rounded-full ${
-            view === 'community' ? 'bg-orange-600' : 'bg-stone-700'
-          }`}
-        >
-          <Text className="text-white text-center font-poppinsMedium">
-            Comunidad
-          </Text>
-        </TouchableOpacity>
-      </View>
+      
+      {/* Category Tabs */}
+      <CategorySelector
+        categories={[
+          { value: 'personal', label: 'Mis estadísticas' },
+          { value: 'community', label: 'Comunidad' },
+        ]}
+        activeCategory={view}
+        onChange={setView}
+      />
 
       {/* Comunidad (Leaderboard) */}
       {view === 'community' && (

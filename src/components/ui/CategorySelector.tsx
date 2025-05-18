@@ -1,33 +1,29 @@
 import { View, Text, TouchableOpacity } from 'react-native';
 
-interface CategorySelectorProps {
-  activeCategory: 'strength' | 'endurance';
-  onChange: (category: 'strength' | 'endurance') => void;
+interface CategorySelectorProps<T extends string> {
+  categories: { value: T; label: string }[];
+  activeCategory: T;
+  onChange: (category: T) => void;
 }
 
-export default function CategorySelector({
+export default function CategorySelector<T extends string>({
+  categories,
   activeCategory,
   onChange,
-}: CategorySelectorProps) {
+}: CategorySelectorProps<T>) {
   return (
     <View className="flex-row justify-center gap-4 mb-8">
-      <TouchableOpacity
-        onPress={() => onChange('strength')}
-        className={`flex-1 py-2 rounded-full items-center ${
-          activeCategory === 'strength' ? 'bg-orange-600' : 'bg-stone-700'
-        }`}
-      >
-        <Text className="text-white font-poppinsMedium">Fuerza</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        onPress={() => onChange('endurance')}
-        className={`flex-1 py-2 rounded-full items-center ${
-          activeCategory === 'endurance' ? 'bg-orange-600' : 'bg-stone-700'
-        }`}
-      >
-        <Text className="text-white font-poppinsMedium">Resistencia</Text>
-      </TouchableOpacity>
+      {categories.map((cat) => (
+        <TouchableOpacity
+          key={cat.value}
+          onPress={() => onChange(cat.value)}
+          className={`flex-1 py-2 rounded-full items-center ${
+            activeCategory === cat.value ? 'bg-orange-600' : 'bg-stone-700'
+          }`}
+        >
+          <Text className="text-white font-poppinsMedium">{cat.label}</Text>
+        </TouchableOpacity>
+      ))}
     </View>
   );
 }

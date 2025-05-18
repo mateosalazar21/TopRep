@@ -28,39 +28,52 @@ const formatScore = (score: number, type: 'load' | 'time' | 'reps') => {
 };
 
 export default function Leaderboard({ entries }: LeaderboardProps) {
+  console.log('🧪 Total entries recibidas en Leaderboard:', entries.length);
+  console.log('🧪 Entradas:', entries);
+
   return (
     <View className="bg-stone-800 rounded-2xl px-4 py-5 border border-stone-700">
+
+      <Text className="text-stone-500 text-xs text-center mb-4">
+        Total atletas inscritos: {entries.length}
+      </Text>
+
       {entries.length === 0 ? (
         <Text className="text-stone-400 text-center font-poppinsRegular">
           Aún no hay resultados registrados
         </Text>
       ) : (
-        entries.map((entry, index) => (
-          <View
-            key={entry.athlete_id}
-            className="flex-row items-center justify-between mb-4"
-          >
-            <View className="flex-row items-center gap-3">
-              <Text className="text-white font-poppinsBold text-base">
-                #{index + 1}
-              </Text>
-              <Text className="text-white font-poppinsMedium text-base">
-                {entry.athlete_name}
+        entries.map((entry, index) => {
+          console.log(`🧪 Entry ${index + 1}:`, entry.athlete_name, '-', entry.score_value);
+
+          return (
+            <View
+              key={entry.athlete_id}
+              className="flex-row items-center justify-between mb-2"
+            >
+              <View className="flex-row items-center gap-3">
+                <Text className="text-white font-poppinsBold text-base">
+                  #{index + 1}
+                </Text>
+                <Text className="text-white font-poppinsMedium text-base">
+                  {entry.athlete_name || 'Sin nombre'}
+                </Text>
+              </View>
+
+              <Text
+                className={`font-poppinsMedium text-base ${
+                  entry.score_value === 0
+                    ? 'text-yellow-400 italic'
+                    : 'text-orange-400'
+                }`}
+              >
+                {entry.score_value === 0
+                  ? 'Pendiente'
+                  : formatScore(entry.score_value, entry.scoring_type)}
               </Text>
             </View>
-            <Text
-              className={`font-poppinsMedium text-base ${entry.score_value === 0
-                  ? 'text-yellow-400 italic'
-                  : 'text-orange-400'
-                }`}
-            >
-              {entry.score_value === 0
-                ? 'Pendiente'
-                : formatScore(entry.score_value, entry.scoring_type)}
-            </Text>
-
-          </View>
-        ))
+          );
+        })
       )}
     </View>
   );

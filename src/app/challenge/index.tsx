@@ -19,15 +19,15 @@ export default function ChallengeListScreen() {
   useFocusEffect(
     useCallback(() => {
       if (!user) return;
-  
+
       const fetchWodsAndResults = async () => {
         setLoading(true);
-  
+
         const [wodsResponse, resultsResponse] = await Promise.all([
           supabase.from('wods').select('*').order('created_at', { ascending: false }),
           supabase.from('wod_results').select('wod_id, score_value, notes').eq('athlete_id', user.id),
         ]);
-  
+
         if (wodsResponse.error || resultsResponse.error) {
           console.error('❌ Error al cargar datos:',
             wodsResponse.error?.message || resultsResponse.error?.message
@@ -36,14 +36,14 @@ export default function ChallengeListScreen() {
           setWods(wodsResponse.data || []);
           setResults(resultsResponse.data || []);
         }
-  
+
         setLoading(false);
       };
-  
+
       fetchWodsAndResults();
     }, [user])
   );
-  
+
 
   const handleAcceptChallenge = async (wod_id: string) => {
     if (!user) return;
@@ -84,9 +84,14 @@ export default function ChallengeListScreen() {
         </Text>
 
         <CategorySelector
+          categories={[
+            { value: 'strength', label: 'Fuerza' },
+            { value: 'endurance', label: 'Resistencia' },
+          ]}
           activeCategory={activeCategory}
           onChange={setActiveCategory}
         />
+
 
         {loading ? (
           <Text className="text-white font-poppinsRegular">Cargando...</Text>
