@@ -1,47 +1,139 @@
-// src/app/(tabs)/stats.tsx
-
-import { View, Text, TouchableOpacity } from 'react-native';
-import { useState } from 'react';
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabase';
 import { Clock } from 'lucide-react-native';
+import PersonalResultsList from '@/components/stats/PersonalStatsChart';
+import Leaderboard from '@/components/stats/Leaderboard';
 
 export default function StatsScreen() {
-  const [activeTab, setActiveTab] = useState<'weekly' | 'alltime'>('weekly');
+  const [view, setView] = useState<'personal' | 'community'>('personal');
+  const [leaderboardEntries, setLeaderboardEntries] = useState<any[]>([]);
+  const [dailyWod, setDailyWod] = useState<{
+    name: string;
+    wod_type: string;
+    start_date: string;
+  } | null>(null);
+
+  // 📊 Cargar leaderboard del WOD diario
+  useEffect(() => {
+    const fetchLeaderboard = async () => {
+      // 1. Buscar el WOD marcado como is_daily_challenge = true
+      const { data: wodData, error: wodError } = await supabase
+        .from('wods')
+        .select('wod_id, name, scoring_type, wod_type, start_date')
+        .eq('is_daily_challenge', true)
+        .limit(1)
+        .single();
+
+      if (wodError || !wodData) {
+        console.error('❌ Error al buscar el WOD activo:', wodError?.message);
+        return;
+      }
+
+      const activeWodId = wodData.wod_id;
+      const scoringType = wodData.scoring_type;
+
+      // 2. Guardar datos del WOD para mostrar en UI
+      setDailyWod({
+        name: wodData.name,
+        wod_type: wodData.wod_type,
+        start_date: wodData.start_date,
+      });
+
+      // 3. Buscar resultados (inscritos) para ese WOD
+      const { data: resultsData, error: resultsError } = await supabase
+        .from('wod_results')
+        .select('score_value, athlete_id, athletes(athlete_name)')
+        .eq('wod_id', activeWodId)
+        .order('score_value', { ascending: false });
+
+      if (resultsError) {
+        console.error('❌ Error al cargar resultados:', resultsError.message);
+        return;
+      }
+
+      const parsedEntries = resultsData.map((entry: any) => ({
+        athlete_id: entry.athlete_id,
+        athlete_name: entry.athletes?.athlete_name ?? 'Sin nombre',
+        score_value: entry.score_value,
+        scoring_type: scoringType,
+      }));
+
+      setLeaderboardEntries(parsedEntries);
+    };
+
+    fetchLeaderboard();
+  }, []);
+
+  const formatDate = (isoDate: string) => {
+    const date = new Date(isoDate);
+    return date.toLocaleDateString('es-EC', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    });
+  };
 
   return (
-    <View className="flex-1 px-6 pt-20">
-      {/* Título */}
-      <Text className="text-orange-400 text-3xl font-poppinsBold mb-6">Leaderboard</Text>
-
-      {/* Filtro Weekly / All Time */}
-      <View className="flex-row space-x-4 mb-6">
+    <ScrollView className="flex-1 px-6 pt-20 pb-10">
+      {/* Tabs */}
+      <View className="flex-row justify-center gap-4 mb-6">
         <TouchableOpacity
-          onPress={() => setActiveTab('weekly')}
-          className={`px-6 py-2 rounded-full ${activeTab === 'weekly' ? 'bg-orange-600' : 'bg-transparent border border-orange-600'}`}
+          onPress={() => setView('personal')}
+          className={`flex-1 py-2 rounded-full ${
+            view === 'personal' ? 'bg-orange-600' : 'bg-stone-700'
+          }`}
         >
-          <Text className={`font-poppinsMedium ${activeTab === 'weekly' ? 'text-black' : 'text-orange-600'}`}>Weekly</Text>
+          <Text className="text-white text-center font-poppinsMedium">
+            Mis estadísticas
+          </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => setActiveTab('alltime')}
-          className={`px-6 py-2 rounded-full ${activeTab === 'alltime' ? 'bg-orange-600' : 'bg-transparent border border-orange-600'}`}
+          onPress={() => setView('community')}
+          className={`flex-1 py-2 rounded-full ${
+            view === 'community' ? 'bg-orange-600' : 'bg-stone-700'
+          }`}
         >
-          <Text className={`font-poppinsMedium ${activeTab === 'alltime' ? 'text-black' : 'text-orange-600'}`}>All Time</Text>
+          <Text className="text-white text-center font-poppinsMedium">
+            Comunidad
+          </Text>
         </TouchableOpacity>
       </View>
 
-      {/* Aviso motivacional */}
-      <View className="bg-orange-300/80 rounded-xl px-4 py-3 mb-4">
-        <Text className="text-orange-900 font-poppinsBold text-base">#4</Text>
-        <Text className="text-orange-900 font-poppinsRegular">
-          ¡Lo estás haciendo mejor que el 60% de los otros jugadores!
-        </Text>
-      </View>
+      {/* Comunidad (Leaderboard) */}
+      {view === 'community' && (
+        <>
+          <Text className="text-white text-2xl font-poppinsBold mb-2 text-center">
+            Leaderboard del día
+          </Text>
 
-      {/* Temporizador */}
-      <View className="flex-row justify-end items-center mb-6">
-        <Clock size={16} color="#f97316" />
-        <Text className="text-orange-400 font-poppinsMedium ml-2">06d 23h 00m</Text>
-      </View>
-    </View>
+          {dailyWod && (
+            <>
+              <Text className="text-stone-300 font-poppinsRegular text-base text-center mb-1">
+                Desafío: <Text className="text-white font-poppinsBold">{dailyWod.name}</Text>
+              </Text>
+              <Text className="text-stone-500 font-poppinsRegular text-sm text-center mb-4">
+                Publicado: {formatDate(dailyWod.start_date)}
+              </Text>
+            </>
+          )}
+
+          <Leaderboard entries={leaderboardEntries} />
+        </>
+      )}
+
+      {/* Estadísticas personales */}
+      {view === 'personal' && (
+        <>
+          <Text className="text-white text-2xl font-poppinsBold mb-6 text-center">
+            Tus progresos
+          </Text>
+
+          <PersonalResultsList />
+        </>
+      )}
+    </ScrollView>
   );
 }
