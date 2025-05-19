@@ -22,7 +22,7 @@ const formatScore = (score: number, type: 'load' | 'time' | 'reps') => {
       .padStart(2, '0');
     return `${m}:${s} min`;
   }
-  if (type === 'load') return `${score.toFixed(1)} kg`;
+  if (type === 'load') return `${score.toFixed(1)} lb`;
   if (type === 'reps') return `${score} reps`;
   return score.toString();
 };

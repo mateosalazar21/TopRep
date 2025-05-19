@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
 import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabase';
-import { Trash2 } from 'lucide-react-native';
+import CategorySelector from '@/components/ui/CategorySelector';
+import GoalCard from '@/components/ui/GoalCard';
 
 export default function EditGoals() {
   const router = useRouter();
@@ -92,80 +93,45 @@ export default function EditGoals() {
 
   return (
     <View className="flex-1 px-6 pt-20 pb-10">
+
       {/* Título */}
       <Text className="text-white text-2xl font-poppinsBold text-center mt-10 mb-6">
         Tus metas activas
       </Text>
 
       {/* Categorías */}
-      <View className="flex-row justify-center gap-4 mb-8">
-        <TouchableOpacity
-          onPress={() => setActiveCategory('strength')}
-          className={`px-4 py-2 rounded-full ${activeCategory === 'strength' ? 'bg-orange-600' : 'bg-stone-700'}`}
-        >
-          <Text className="text-white font-poppinsMedium">PR en levantamientos</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => setActiveCategory('endurance')}
-          className={`px-4 py-2 rounded-full ${activeCategory === 'endurance' ? 'bg-orange-600' : 'bg-stone-700'}`}
-        >
-          <Text className="text-white font-poppinsMedium">Tiempo en resistencia</Text>
-        </TouchableOpacity>
-      </View>
+      <CategorySelector
+        categories={[
+          { value: 'strength', label: 'PR en levantamientos' },
+          { value: 'endurance', label: 'Tiempo en resistencia' },
+        ]}
+        activeCategory={activeCategory}
+        onChange={setActiveCategory}
+      />
 
       {/* Metas por categoría */}
       <ScrollView className="gap-4">
         {activeCategory === 'strength' &&
           strengthGoals.map((goal) => (
-            <View
+            <GoalCard
               key={goal.goal_id}
-              className="px-5 py-4 mb-4 rounded-2xl border border-orange-600 bg-orange-700/30 relative"
-            >
-              <TouchableOpacity
-                onPress={() => confirmDelete(goal.goal_id, 'strength')}
-                className="absolute top-3 right-3"
-              >
-                <Trash2 size={20} color="#fff" />
-              </TouchableOpacity>
-
-              <Text className="text-white font-poppinsBold text-lg mb-1 capitalize">
-                {goal.exercise_name.replace('_', ' ')}
-              </Text>
-              <Text className="text-white font-poppinsMedium text-base">
-                De {goal.current_pr_lb} lb a {goal.target_pr_lb} lb
-              </Text>
-              <Text className="text-stone-300 font-poppinsMedium text-sm mt-1">
-                Estimación: {goal.recommended_weeks}–{goal.max_weeks} semanas
-              </Text>
-            </View>
+              type="strength"
+              goal={goal}
+              onDelete={() => confirmDelete(goal.goal_id, 'strength')}
+            />
           ))}
 
         {activeCategory === 'endurance' &&
           enduranceGoals.map((goal) => (
-            <View
+            <GoalCard
               key={goal.goal_id}
-              className="px-5 py-4 mb-4 rounded-2xl border border-orange-600 bg-orange-700/30 relative"
-            >
-              <TouchableOpacity
-                onPress={() => confirmDelete(goal.goal_id, 'endurance')}
-                className="absolute top-3 right-3"
-              >
-                <Trash2 size={20} color="#fff" />
-              </TouchableOpacity>
-
-              <Text className="text-white font-poppinsBold text-lg mb-1 capitalize">
-                {goal.exercise_name.replace('_', ' ')}
-              </Text>
-              <Text className="text-white font-poppinsMedium text-base">
-                De {formatTime(goal.current_time_sec)} a {formatTime(goal.target_time_sec)}
-              </Text>
-              <Text className="text-stone-300 font-poppinsMedium text-sm mt-1">
-                Estimación: {goal.recommended_weeks}–{goal.max_weeks} semanas
-              </Text>
-            </View>
+              type="endurance"
+              goal={goal}
+              onDelete={() => confirmDelete(goal.goal_id, 'endurance')}
+            />
           ))}
       </ScrollView>
+
     </View>
   );
 }
